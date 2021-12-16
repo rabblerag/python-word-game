@@ -1,0 +1,13 @@
+---
+"bg_colors": 
+  - "white"
+  - "black"
+  - "red"
+  - "yellow"
+  - "green"
+  - "blue"
+  - "orange"
+  - "purple"
+"selected_color": "white"
+"sfx_multiplier": 1.00
+"music_multiplier": 1.00
