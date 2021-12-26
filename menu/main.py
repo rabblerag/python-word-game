@@ -1,5 +1,6 @@
 #needed for settings class
 import yaml
+from tkinter import colorchooser
 
 #class for the menu GUI, separate from settings
 class Menu():
@@ -33,7 +34,7 @@ class Settings():
         with open("config.yaml", "r") as f: self.config = yaml.safe_load(f)
         self.sfx_multiplier = self.config["sfx_multiplier"]
         self.music_multiplier = self.config["music_multiplier"]
-        self.selected_color = self.config["selected_color"]
+        self.bg_color = self.config["bg_color"]
         #add tkinter 
 
     #sound effects volume slider(?) 0-100
@@ -55,9 +56,8 @@ class Settings():
         quit()
         #root.kill() or equivalent
 
-    #let the user choose a bg color
-    def bg_color(self, choice):
-        #options: black, white, red, blue etc.
-        #or: let user change the color based on RGB values on 3 sliders
-        if choice in self.config["bg_colors"]: self.config["selected_color"] = self.selected_color = choice
+    #let the user choose a bg color using askcolor()
+    def set_bg_color(self): 
+        choice = colorchooser.askcolor(title = "Select a color")[1]
+        self.config["bg_color"], self.bg_color = choice
         #set_bg_color(self.selected_color)
