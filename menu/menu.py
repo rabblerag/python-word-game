@@ -128,5 +128,3 @@ if __name__ == "__main__":
     root.geometry('1000x500+50+50')
     Menu(root)
     root.mainloop()
-    from playsound import playsound
-    #playsound('sound-16.mp3')
