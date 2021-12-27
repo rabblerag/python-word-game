@@ -78,12 +78,8 @@ class Menu():
     def leaderboard(self): pass
 
 
-    #exit the game, replace quit() with tkinter kill()
-    def game_exit(self):
-        self.root.destroy()
-
-        
-
+    #exit the game
+    def game_exit(self): self.root.destroy()
 
     #go to settings GUI
     def settings(self): 
@@ -93,8 +89,9 @@ class Menu():
 #class for settings GUI, separate from menu
 #store settings in a .yaml file
 class Settings():
-    def __init__(self): 
-        with open("config.yaml", "r") as f: self.config = yaml.safe_load(f)
+    def __init__(self, root): 
+        self.root = root
+        with open("menu\\config.yaml", "r") as f: self.config = yaml.safe_load(f)
         self.sfx_multiplier = self.config["sfx_multiplier"]
         self.music_multiplier = self.config["music_multiplier"]
         self.bg_color = self.config["bg_color"]
@@ -125,10 +122,11 @@ class Settings():
         self.config["bg_color"], self.bg_color = choice
         #set_bg_color(self.selected_color)
 
-root=tk.Tk()
-root.title('Python Word Game')
-root.geometry('1000x500+50+50')
-Menu(root)
-root.mainloop()
-from playsound import playsound
-#playsound('sound-16.mp3')
+if __name__ == "__main__":
+    root=tk.Tk()
+    root.title('Python Word Game')
+    root.geometry('1000x500+50+50')
+    Menu(root)
+    root.mainloop()
+    from playsound import playsound
+    #playsound('sound-16.mp3')
