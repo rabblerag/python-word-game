@@ -65,13 +65,13 @@ def game():
 
         def mainmenu(self):
             self.root.destroy()
-            self.win.destroy()
+            #self.win.destroy() #to win καταστρεφεται αυτοματα ως tk.Toplevel
             root2=tk.Tk()
             root2.title('Python Word Game')
             root2.geometry('1000x500+50+50')
             final_menu.Menu(root2)
             root2.mainloop()
-            #        self.mainMenu()
+            #self.mainMenu()
             #root.destroy()
 
 
@@ -96,7 +96,7 @@ def game():
             print(text)
 
         def menu(self):
-            win = tk.Tk()
+            win = tk.Toplevel(self.root)
             mymenu = MyMenu(win)
             win.mainloop()
 
