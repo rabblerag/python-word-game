@@ -4,14 +4,15 @@ import tkinter as tk
 from tkinter import ttk
 from functools import partial
 import pyglet
-import PHILIPOS
+import game_gui
+from tkinter import colorchooser
+
+
+#import multiprocessing as mp  
 ##click = pyglet.media.load('sound-16.wav',streaming=False)
 ##import pyaudio
 ##from pydub import AudioSegment
 ##from pydub.playback import play
-
-#click = pyglet.media.load('sound-16.wav',streaming=False)
-
 ###from playsound import playsound
 
 
@@ -21,9 +22,10 @@ class Menu():
     def __init__(self,root):
         
         #click = pyglet.media.load('sound-16.wav',streaming=False)
-        #self.click=click
+        self.click=click
         self.player_2=player_2
-        self.player_2.loop=True
+        #pyglet.app.run()
+        #self.player_2.loop=True
         self.player_2.play()
         self.root=root          #cannot be connected with other modules without this
         self.f1=tk.Frame(root,width=1000)
@@ -43,9 +45,8 @@ class Menu():
         #self.play_button.bind("<Leave>", partial(self.color_config, self.play_button, "black"))
         self.play_button.bind('<Enter>',partial(self.color_config, self.play_button, "red")) 
         self.play_button.bind("<Leave>", partial(self.color_config, self.play_button, "black"))
-        #https://docs.python.org/3/library/functools.html  
-        #https://stackoverflow.com/questions/10239292/changing-text-color-when-hovering-over-text-with-tkinter
-        #
+        #partial 'freezes' a function at a specific instant, therefore we dont have to create different function for each color 
+        
         #LEADERBOARD
         self.leader_button=tk.Button(self.f2,text='LEADERBOARD',font='Arial 16',relief='groove',bg='#1d7b72',command=self.leaderboard)
         self.leader_button.pack(side='top')
@@ -63,23 +64,24 @@ class Menu():
         self.quit_button.bind("<Leave>", partial(self.color_config, self.quit_button, "black"))
 
     def play_play(self):
-        self.player_2.pause()
-        self.root.destroy()
-        PHILIPOS.game()
+        'χρησιμοποιείται από το START BUTTON που συνδέει το μενού με το game gui'
+        self.player_2.pause()  #stop the menu music
+        self.root.destroy()    #close the menu window
+        game_gui.game()        #from game_gui module function game ->initializes the game
         #self.root.destroy()
         
 
         
 
-    #start main game, WIP
+    #start main game, WIP    
     def play_game(self):
+        'play button command'
         click.play()
         global options_window
         
         options_window=tk.Toplevel(self.root,bg='#069486',height=400,width=400)  #παράθυρο επιλογής δυσκολίας
         self.options_window=options_window
-        
-        options_window.geometry("400x166+350+217")
+        options_window.geometry("400x166+440+217")
         #κουμπιά δυσκολίας (optional)
         #η δυσκολια αλλάζει αυτόματα οπότε δεν χρειάζονται
 ##        self.options_window.geometry('500x250+300+175')
@@ -95,16 +97,19 @@ class Menu():
 ##        self.option3.pack()
 ##        self.option3.bind('<Enter>',partial(self.color_config,self.option3,'red'))
 ##        self.option3.bind("<Leave>", partial(self.color_config, self.option3, "black"))
+        
         #EXIT BUTTON
         self.option4=tk.Button(self.options_window,text='QUIT',bg='#1d7b72',font='Arial 12',relief='groove',command=self.close_options)
         self.option4.pack()
         self.option4.bind('<Enter>',partial(self.color_config,self.option4,'red'))
         self.option4.bind("<Leave>", partial(self.color_config, self.option4, "black"))
-        #PLAY-CONNECT BUTTON
+        
+        #PLAY-CONNECT BUTTON/ START BUTTON
         self.connect_button=tk.Button(self.options_window,text='START',bg='#1d7b72',font='Arial 12',relief='groove',command=self.play_play)
         self.connect_button.pack()
         
     def close_options(self):
+        'κλείσιμο παραθύρου επιλογών'
         #song = AudioSegment.from_wav('sound-16.wav')
         #play(song)
         click.play()
@@ -126,19 +131,17 @@ class Menu():
         click.play()
         self.root.destroy()
         self.player_2.delete()
-        #quit()
+        quit()
         
         
     #go to settings GUI
     def settings(self):
         click.play()
-        self.settings_window=tk.Toplevel(self.root,bg='#069486',height=400,width=400)  #παράθυρο ρυθμίσεων ήχου και μουσικής
+        #SETTINGS WINDOW
+        self.settings_window=tk.Toplevel(self.root,bg='#069486')  #παράθυρο ρυθμίσεων ήχου και μουσικής
+        self.settings_window.geometry('200x166+440+217')
         self.settings = Settings(self.settings_window,self) #οπως 5ο εργαστηριο #class SETTINGS
-        self.settings_window.geometry('100x100')
-##        self.w = tk.Scale(settings_window, from_=0.0, to=100, orient='horizontal',bg='#069486')
-##        self.w.pack()
-##        self.a=self.w.get()
-##        click.volume=self.a
+        #self.settings_window.geometry('100x100')
         #Settings.adjust_sfx(self.a)
         #find a way to simply change the layout instead of creating a new window
 
@@ -147,17 +150,31 @@ class Menu():
 class Settings():
     def __init__(self,window,menu):
         self.player_2=player_2     #player
-        self.player_2.loop=True
+        #self.player_2.loop=True
+        #self.click=click
         self.window=window
         self.menu=menu
-        self.root=self.menu.root #arxiko para8yro
-        self.sfx_button=tk.Button(self.window,text='sound settings',relief='groove',bg='#942706',command=self.adjust_sfx)
-        self.sfx_button.pack()
-        self.sfx_button.bind('<Enter>',partial(self.menu.color_config,self.sfx_button,'red'))
-        self.sfx_button.bind("<Leave>", partial(self.menu.color_config, self.sfx_button, "black"))
+        self.root=self.menu.root #αρχικο παραθυρο απο την κλάση μενού
+        
+##        self.sfx_button=tk.Button(self.window,text='sound settings',relief='groove',bg='#942706',command=self.adjust_sfx)
+##        self.sfx_button.pack()
+##        self.sfx_button.bind('<Enter>',partial(self.menu.color_config,self.sfx_button,'red'))
+##        self.sfx_button.bind("<Leave>", partial(self.menu.color_config, self.sfx_button, "black"))
+
+        #MUSIC BUTTON
         self.music_button=tk.Button(self.window,text='music',relief='groove',command=self.adjust_music)
+        self.music_button.bind('<Enter>',partial(self.menu.color_config,self.music_button,'red'))
+        self.music_button.bind("<Leave>", partial(self.menu.color_config, self.music_button, "black"))
         self.music_button.pack()
-        #exit,save button
+        #BACKROUND COLOR BUTTON
+        self.color_button=tk.Button(self.window,text='color',relief='groove',command=self.color_button)
+        self.color_button.bind('<Enter>',partial(self.menu.color_config,self.color_button,'red'))
+        self.color_button.bind("<Leave>", partial(self.menu.color_config, self.color_button, "black"))
+        self.color_button.pack()
+        
+
+############################## CURRENTLY THIS ISNT WORKING ##############################        
+        #exit,save button 
         self.exit_button=tk.Button(self.window,text='exit',relief='groove',command=self.settings_exit)
         self.exit_button.pack()
         
@@ -168,45 +185,52 @@ class Settings():
         self.sfx_multiplier = self.config["sfx_multiplier"]
         self.music_multiplier = self.config["music_multiplier"]
         self.selected_color = self.config["selected_color"]
-        #add tkinter 
-
+         
+#Unnecessary gadget since there is only the click sfx
     #sound effects volume slider(?) 0-100
-    def adjust_sfx(self):
-        self.sfx_window=tk.Toplevel(self.root,bg='#069486',height=400,width=400)
-        self.w = tk.Scale(self.sfx_window, from_=0.0, to=100, orient='horizontal',bg='#069486')
-        self.w.pack()
-        self.inp=self.w.get()
-        click.volume=self.inp
-        self.config["sfx_multiplier"] = self.sfx_multiplier = self.inp/100 #change 100 as necessary so input is in range
-        #find sounds to add, find module for sound manipulation in python
+##    def adjust_sfx(self):
+##        self.sfx_window=tk.Toplevel(self.root,bg='#069486',height=400,width=400)
+##        self.w = tk.Scale(self.sfx_window, from_=0.0, to=100, orient='horizontal',bg='#069486')
+##        self.w.pack()
+##        self.inp=self.w.get()
+##        self.click.play.volume=self.inp/100
+##        self.config["sfx_multiplier"] = self.sfx_multiplier = self.inp/100 #change 100 as necessary so input is in range
+##        #find sounds to add, find module for sound manipulation in python
         
 
-    #music volume slider(?) 0-100
+    
+##### MUSIC VOLUME FUNCTIONS  ######
+        
     def x(self):
+        'USED BY ok button to change the volume'
         self.inp=self.w.get()
         self.player_2.volume=self.inp/100
         self.config["music_multiplier"] = self.music_multiplier = self.inp/100
         
-        
+    #MUSIC WINDOW    
     def adjust_music(self):
+        'creates the music toplevel,slider,buttons'
+        click.play()
         self.music_window=tk.Toplevel(self.root,bg='#069486',height=400,width=400)
+        self.music_window.geometry('+1000+600')
+        #play button
         self.play_button=tk.Button(self.music_window,text='play',relief='groove',command=self.player_2.play)
         self.play_button.pack()
+        #pause button
         self.pause_button=tk.Button(self.music_window,text='pause',relief='groove',command=self.player_2.pause)
         self.pause_button.pack()
+        #slider
         self.w = tk.Scale(self.music_window, from_=0.0, to=100, orient='horizontal',bg='#069486')
         self.w.pack()
-        #self.w.set(self.music_multiplier)
-
-    
+        #ok button    
         self.ok_button=tk.Button(self.music_window,text='ok',relief='groove',command=self.x)
         self.ok_button.pack()
-        #self.x lambda :self.w.get()
-        #click.volume=self.inp
-        #self.player_2.volume=self.inp
-        #self.config["music_multiplier"] = self.music_multiplier = self.inp/100 
+
         #same as above
 
+
+
+############################## CURRENTLY THIS ISNT WORKING ##############################
     #exit settings GUI, replace quit() with tkinter kill()
     def settings_exit(self): 
         #implement in tkinter with buttons
@@ -216,38 +240,52 @@ class Settings():
         quit()
         #root.kill() or equivalent
 
+    #BACKROUND COLOR BUTTON COMMAND
+
+    def color_button(self):
+        click.play()
+        choice = colorchooser.askcolor(title = "Select a color")[1]
+        self.bg_color(choice)
     #let the user choose a bg color
     def bg_color(self, choice):
+        
         choice = colorchooser.askcolor(title = "Select a color")[1]
         self.config["bg_color"], self.bg_color = choice
         #set_bg_color(self.selected_color)
-
         #options: black, white, red, blue etc.
         #or: let user change the color based on RGB values on 3 sliders
         if choice in self.config["bg_colors"]: self.config["selected_color"] = self.selected_color = choice
         #set_bg_color(self.selected_color)
-        
+
+
+
+###################################################################  Main Program #########################################################################        
+##pyglet.options['debug_media'] = True
+
+#sound preparation/loading
 pyglet.options['audio'] = ('openal', 'pulse', 'directsound', 'silent')
 click = pyglet.media.load('sound-16.wav',streaming=False)
 player_2 = pyglet.media.Player()
-music= pyglet.media.load('jazzy-abstract-beat-11254.mp3', streaming=False)
+music= pyglet.media.load('jazzy-abstract-beat-11254.mp3', streaming=False) #StaticSource object
 player_2.loop=True
 player_2.queue(music)
 player_2.volume=0.2
-player_2.loop=True
+
+
+#pyglet loop didn't cooperate
+#pyglet.app.run()
+##mus=pyglet.media.load('sound-16.wav',streaming=False)
+##pl=mus.play()
+##pl.loop=True
+##pyglet.app.run()
+
 if __name__=='__main__':
-    #player_2.queue(music)
-    ###################################player_2.loop=True??????????????????????????????????????????
-##    with open("config.yaml", "r") as f:
-##        fruits_list = yaml.safe_load(f)
-##
-##        print(fruits_list)
-#volume = yaml.safe_load(f, Loader=yaml.FullLoader)
-#player_2.volume=self.music_multiplier
-#player_2.play()
     root=tk.Tk()
     root.title('Python Word Game')
-    root.geometry('1000x500+50+50')
+    root.geometry('1000x600+140+30')
     Menu(root)
     root.mainloop()
+    
+    #pyglet.app.exit()
+    #pyglet.app.run()
 
