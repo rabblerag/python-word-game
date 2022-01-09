@@ -82,8 +82,10 @@ class Menu():
         options_window=tk.Toplevel(self.root,bg='#069486',height=400,width=400)  #παράθυρο επιλογής δυσκολίας
         self.options_window=options_window
         options_window.geometry("400x166+440+217")
-        #κουμπιά δυσκολίας (optional)
-        #η δυσκολια αλλάζει αυτόματα οπότε δεν χρειάζονται
+
+        
+#κουμπιά δυσκολίας (optional)
+#η δυσκολια αλλάζει αυτόματα οπότε δεν χρειάστηκαν
 ##        self.options_window.geometry('500x250+300+175')
 ##        self.option1=tk.Button(self.options_window,text='HARD',bg='#1d7b72',font='Arial 12',relief='groove')### ADD command!!!!!!!!!
 ##        self.option1.pack()
@@ -97,6 +99,7 @@ class Menu():
 ##        self.option3.pack()
 ##        self.option3.bind('<Enter>',partial(self.color_config,self.option3,'red'))
 ##        self.option3.bind("<Leave>", partial(self.color_config, self.option3, "black"))
+        
         
         #EXIT BUTTON
         self.option4=tk.Button(self.options_window,text='QUIT',bg='#1d7b72',font='Arial 12',relief='groove',command=self.close_options)
@@ -115,7 +118,7 @@ class Menu():
         click.play()
         options_window.destroy()  
 
-       
+    #COLOR CHANFE WHEN MOUSE HOVERS OVER BUTTONS  
     def color_config(self,widget, color, event):
         '''αλλαγή χρώματος κουμπιού όταν το ποντίκι είναι απο πάνω του'''
         widget.configure(foreground=color)
@@ -175,16 +178,16 @@ class Settings():
 
 ############################## CURRENTLY THIS ISNT WORKING ##############################        
         #exit,save button 
-        self.exit_button=tk.Button(self.window,text='exit',relief='groove',command=self.settings_exit)
-        self.exit_button.pack()
-        
-
-
-        
-        with open("config.yaml", "r") as f: self.config = yaml.safe_load(f)
-        self.sfx_multiplier = self.config["sfx_multiplier"]
-        self.music_multiplier = self.config["music_multiplier"]
-        self.selected_color = self.config["selected_color"]
+##        self.exit_button=tk.Button(self.window,text='exit',relief='groove',command=self.settings_exit)
+##        self.exit_button.pack()
+##        
+##
+##
+##        
+##        with open("config.yaml", "r") as f: self.config = yaml.safe_load(f)
+##        self.sfx_multiplier = self.config["sfx_multiplier"]
+##        self.music_multiplier = self.config["music_multiplier"]
+##        self.selected_color = self.config["selected_color"]
          
 #Unnecessary gadget since there is only the click sfx
     #sound effects volume slider(?) 0-100
@@ -205,14 +208,14 @@ class Settings():
         'USED BY ok button to change the volume'
         self.inp=self.w.get()
         self.player_2.volume=self.inp/100
-        self.config["music_multiplier"] = self.music_multiplier = self.inp/100
+##        self.config["music_multiplier"] = self.music_multiplier = self.inp/100    #fix later
         
     #MUSIC WINDOW    
     def adjust_music(self):
         'creates the music toplevel,slider,buttons'
         click.play()
         self.music_window=tk.Toplevel(self.root,bg='#069486',height=400,width=400)
-        self.music_window.geometry('+1000+600')
+        self.music_window.geometry('400x200')
         #play button
         self.play_button=tk.Button(self.music_window,text='play',relief='groove',command=self.player_2.play)
         self.play_button.pack()
