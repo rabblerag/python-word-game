@@ -61,7 +61,7 @@ class Menu():
         self.f2=tk.Frame(root,width=500,bg=bg_color)
         self.f2.pack(side='top',expand=1,fill='both')
         #PLAY
-        self.play_button=tk.Button(self.f2,text='PLAY',font='Arial 16',relief='groove',bg='#942706',command=self.play_game)
+        self.play_button=tk.Button(self.f2,text='PLAY',font='Arial 16',relief='groove',bg='#1d7b72',command=self.play_game)
         self.play_button.pack(side='top')
         #self.play_button.bind('<Enter>',self.color_config(self.play_button, "red",event)) 
         #self.play_button.bind("<Leave>", partial(self.color_config, self.play_button, "black"))
@@ -75,12 +75,12 @@ class Menu():
         self.leader_button.bind('<Enter>',partial(self.color_config, self.leader_button, "red"))
         self.leader_button.bind("<Leave>", partial(self.color_config, self.leader_button, "black"))
         #SETTINGS
-        self.settings_button=tk.Button(self.f2,text='SETTINGS',font='Arial 16',relief='groove',bg='#942706',command=self.settings)
+        self.settings_button=tk.Button(self.f2,text='SETTINGS',font='Arial 16',relief='groove',bg='#1d7b72',command=self.settings)
         self.settings_button.pack(side='top')
         self.settings_button.bind('<Enter>',partial(self.color_config, self.settings_button, "red")) #"#942706" complementary color
         self.settings_button.bind("<Leave>", partial(self.color_config, self.settings_button, "black"))
         #QUIT
-        self.quit_button=tk.Button(self.f2,text='EXIT',font='Arial 16',relief='groove',bg='#1d7b72',command=self.game_exit)
+        self.quit_button=tk.Button(self.f2,text='EXIT',font='Arial 16',relief='groove',bg='#942706',command=self.game_exit)
         self.quit_button.pack(side='top')
         self.quit_button.bind('<Enter>',partial(self.color_config, self.quit_button, "red")) #"#942706" complementary color
         self.quit_button.bind("<Leave>", partial(self.color_config, self.quit_button, "black"))
@@ -140,7 +140,7 @@ class Menu():
         click.play()
         options_window.destroy()  
 
-    #COLOR CHANFE WHEN MOUSE HOVERS OVER BUTTONS  
+    #COLOR CHANGE WHEN MOUSE HOVERS OVER BUTTONS  
     def color_config(self,widget, color, event):
         '''αλλαγή χρώματος κουμπιού όταν το ποντίκι είναι απο πάνω του'''
         widget.config(foreground=color)
