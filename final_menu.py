@@ -8,12 +8,7 @@ import game_gui
 from tkinter import colorchooser
 
 
-#import multiprocessing as mp  
-##click = pyglet.media.load('sound-16.wav',streaming=False)
-##import pyaudio
-##from pydub import AudioSegment
-##from pydub.playback import play
-###from playsound import playsound
+
 
 #for reinitialization
 def main():
@@ -29,9 +24,7 @@ def main():
     root.geometry('1000x600+140+30')
     Menu(root)
     root.mainloop()
-    
-    #pyglet.app.exit()
-    #pyglet.app.run()
+
 
 
 
@@ -41,10 +34,9 @@ class Menu():
 
     global bg_color, music_multiplier
 
-    #add tkinter etc.
+    
     def __init__(self,root):
-        
-        #click = pyglet.media.load('sound-16.wav',streaming=False)
+
         self.click=click
         self.player_2=player_2
         #pyglet.app.run()
@@ -53,10 +45,13 @@ class Menu():
         self.root=root          #cannot be connected with other modules without this
         self.f1=tk.Frame(root,width=1000)
         self.f1.pack(side='top')
-        label1=tk.Label(self.f1,text="Python Word Game", font='Vivaldi 40',bg=bg_color,width=1000)
-        label1.pack(expand=1,fill='x')
-        label2=tk.Label(self.f1,text='MENU', font='Stencil 40',bg=bg_color,width=1000)
-        label2.pack()
+        self.label1=tk.Label(self.f1,text="Python Word Game", font='Vivaldi 40',bg=bg_color,width=1000)
+        #αν ο χρήστης κάνει το background color μαύρο από τα settings, τα γράμματα θα γίνονται άσπρα
+        if config["bg_color"]=='#000000':self.label1.configure(foreground='white')
+        self.label1.pack(expand=1,fill='x')
+        self.label2=tk.Label(self.f1,text='MENU', font='Stencil 40',bg=bg_color,width=1000)
+        if config["bg_color"]=='#000000':self.label2.configure(foreground='white')
+        self.label2.pack()
         self.f4=tk.Frame(root,width=500,bg=bg_color)
         self.f4.pack(side='top',expand=1,fill='both')
         self.f2=tk.Frame(root,width=500,bg=bg_color)
@@ -122,6 +117,12 @@ class Menu():
         #self.settings_window.geometry('100x100')
         #Settings.adjust_sfx(self.a)
         #find a way to simply change the layout instead of creating a new window
+        
+    def letter_color(self):
+        self.label1.configure(foreground='white')
+        self.label2.configure(foreground='white')
+
+
 
 #class for settings GUI, separate from menu
 #store settings in a .yaml file
@@ -137,10 +138,7 @@ class Settings():
         self.menu=menu
         self.root=self.menu.root #αρχικο παραθυρο απο την κλάση μενού
         
-##        self.sfx_button=tk.Button(self.window,text='sound settings',relief='groove',bg='#942706',command=self.adjust_sfx)
-##        self.sfx_button.pack()
-##        self.sfx_button.bind('<Enter>',partial(self.menu.color_config,self.sfx_button,'red'))
-##        self.sfx_button.bind("<Leave>", partial(self.menu.color_config, self.sfx_button, "black"))
+
 
         #MUSIC BUTTON
         self.music_button=tk.Button(self.window,text='music',relief='groove',command=self.adjust_music)
@@ -206,7 +204,9 @@ class Settings():
     def color_choice(self):
         click.play()
         config["bg_color"] = colorchooser.askcolor(title = "Select a color", color = bg_color)[1]
-        self.settings_exit()
+        #Μολις επιλέξει χρώμα ο χρήστης η main ξανατρέχει και έτσι εφαρμόζονται οι αλλαγές του χρήστη
+        #στην περιπτωση που το χρωμα γινει μαυρο καθως η main ξανακαλειται μεσω της self.settings_exit(), τα labels γίνονται άσπρα
+        self.settings_exit()     
 
     
 pyglet.options['audio'] = ('openal', 'pulse', 'directsound', 'silent')

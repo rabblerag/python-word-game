@@ -1,15 +1,14 @@
 import tkinter as tk
 import time
-#import sys
-#sys.path.append('C:\\Users\\USER\\Documents\\project\\python-word-game-main\\menu')
 import final_menu
-##import importlib.util
-##spec = importlib.util.spec_from_file_location("final_menu.py", 'C:\\Users\\USER\\Documents\\project\\python-word-game-main\\menu')
-##foo = importlib.util.module_from_spec(spec)
-##spec.loader.exec_module(foo)
-##foo.MyClass()
-###from 'C:\\Users\\USER\\Documents\\project\\python-word-game-main\\menu' import final_menu
+import pyglet
+from functools import partial
+import itertools
+import enchant
+import random
+import string
 
+newlettersound=pyglet.media.load('mixkit-retro-game-notification-212.wav',streaming=False)
 k = ["a","b","c","d","e"]
 def game(bg, music):
     global bg_color, music_multiplier
@@ -119,6 +118,8 @@ class MyApp():
 
 
     def new_letters(self):
+        newlettersound.play()
+        
 ##-------------------------------------------------------------------------------------
         k = ["g","j","d","i"]       #list  grammata
 ##------------------------------------------------------------------------------------
@@ -131,12 +132,15 @@ class MyApp():
         for x in range(0,a):
             y = str(k[x])
             self.y = tk.Label(self.f2, text = y, font = "Arial 15",
-                                fg = "black", bg = bg_color,relief = "raised", width = 2)
+                                fg = "black", bg ='grey',relief = "raised", width = 2)
             self.y.pack(side = "left", padx = 5, expand = 1)
 
     def activebutton(self, event):
         event.widget["activeforeground"]="white"
         event.widget["activebackground"]=bg_color
+    def color_config(self,widget, color, event):
+        '''αλλαγή χρώματος κουμπιού όταν το ποντίκι είναι απο πάνω του'''
+        widget.config(foreground=color)
 
         
 
@@ -144,17 +148,27 @@ class MyApp():
 ##--------------------------------------------------------------------------------------------------------- menubar           
         self.f = tk.Frame(self.root, bg = "grey")
         self.f.pack(side = "top", fill = "both")
-        self.mn = tk.Button(self.f, text = "menu", font = "Arial 14",
+        #MENU BUTTON
+        self.mn = tk.Button(self.f, text = "MENU", font = "Arial 14",
                             fg ="black", bg = "grey", command = self.menu)
         self.mn.pack(side = "left", fill = "both")
+        self.mn.bind('<Enter>',partial(self.color_config, self.mn, "red")) #"#f53b57" complementary color
+        self.mn.bind("<Leave>", partial(self.color_config, self.mn, "black"))
 
-        self.mn.bind("<Enter>",self.activebutton)
-        self.rst = tk.Button(self.f, text = "restart",font = "Arial 14",
+        #self.mn.bind("<Enter>",self.activebutton)
+        #RESTART BUTTON
+        self.rst = tk.Button(self.f, text = "RESTART",font = "Arial 14",
                                 command = self.restartButton, fg = "black", bg = "grey")
         self.rst.pack(side = "left", padx = 1, fill = "both")
+        self.rst.bind('<Enter>',partial(self.color_config, self.rst, "red")) #"#f53b57" complementary color
+        self.rst.bind("<Leave>", partial(self.color_config, self.rst, "black"))
 
-        self.rst.bind("<Enter>",self.activebutton)
+        #add quit button
+        
 
+
+
+        #TIME?
         self.timevar = tk.StringVar()
         self.timevar.set("05:00")
         self.time = tk.Label(self.f, textvariable = self.timevar, font = "Arial 14",
@@ -221,4 +235,5 @@ class MyApp():
         self.nxt.pack(side = "right", expand = 1)
         self.nxt.bind("<Enter>",self.activebutton)
 
+    
     
