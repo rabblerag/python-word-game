@@ -22,6 +22,7 @@ def main():
     with open("config.yaml", "r") as f: config = yaml.load(f, Loader=yaml.FullLoader)
     bg_color = config["bg_color"]
     music_multiplier = config["music_multiplier"]
+    player_2.volume= 0.5 * music_multiplier
     #initializ
     root=tk.Tk()
     root.title('Python Word Game')
@@ -80,65 +81,17 @@ class Menu():
         self.settings_button.bind('<Enter>',partial(self.color_config, self.settings_button, "red")) #"#942706" complementary color
         self.settings_button.bind("<Leave>", partial(self.color_config, self.settings_button, "black"))
         #QUIT
-        self.quit_button=tk.Button(self.f2,text='EXIT',font='Arial 16',relief='groove',bg='#942706',command=self.game_exit)
+        self.quit_button=tk.Button(self.f2,text='EXIT',font='Arial 16',relief='groove',bg='#f53b57',command=self.game_exit)
         self.quit_button.pack(side='top')
-        self.quit_button.bind('<Enter>',partial(self.color_config, self.quit_button, "red")) #"#942706" complementary color
+        self.quit_button.bind('<Enter>',partial(self.color_config, self.quit_button, "blue")) #"#f53b57" complementary color
         self.quit_button.bind("<Leave>", partial(self.color_config, self.quit_button, "black"))
 
-    def play_play(self):
+    def play_game(self):
         'χρησιμοποιείται από το START BUTTON που συνδέει το μενού με το game gui'
+        click.play()
         self.player_2.pause()  #stop the menu music
         self.root.destroy()    #close the menu window
-        game_gui.game()        #from game_gui module function game ->initializes the game
-        #self.root.destroy()
-        
-
-        
-
-    #start main game, WIP    
-    def play_game(self):
-        'play button command'
-        click.play()
-        global options_window
-        
-        options_window=tk.Toplevel(self.root,bg=bg_color,height=400,width=400)  #παράθυρο επιλογής δυσκολίας
-        self.options_window=options_window
-        options_window.geometry("400x166+440+217")
-
-        
-#κουμπιά δυσκολίας (optional)
-#η δυσκολια αλλάζει αυτόματα οπότε δεν χρειάστηκαν
-##        self.options_window.geometry('500x250+300+175')
-##        self.option1=tk.Button(self.options_window,text='HARD',bg='#1d7b72',font='Arial 12',relief='groove')### ADD command!!!!!!!!!
-##        self.option1.pack()
-##        self.option1.bind('<Enter>',partial(self.color_config,self.option1,'red'))
-##        self.option1.bind("<Leave>", partial(self.color_config, self.option1, "black"))
-##        self.option2=tk.Button(self.options_window,text='MEDIUM',bg='#1d7b72',font='Arial 12',relief='groove')### ADD command!!!!!!!!!
-##        self.option2.pack()
-##        self.option2.bind('<Enter>',partial(self.color_config,self.option2,'red'))
-##        self.option2.bind("<Leave>", partial(self.color_config, self.option2, "black"))
-##        self.option3=tk.Button(self.options_window,text='EASY',bg='#1d7b72',font='Arial 12',relief='groove')### ADD command!!!!!!!!!
-##        self.option3.pack()
-##        self.option3.bind('<Enter>',partial(self.color_config,self.option3,'red'))
-##        self.option3.bind("<Leave>", partial(self.color_config, self.option3, "black"))
-        
-        
-        #EXIT BUTTON
-        self.option4=tk.Button(self.options_window,text='QUIT',bg='#1d7b72',font='Arial 12',relief='groove',command=self.close_options)
-        self.option4.pack()
-        self.option4.bind('<Enter>',partial(self.color_config,self.option4,'red'))
-        self.option4.bind("<Leave>", partial(self.color_config, self.option4, "black"))
-        
-        #PLAY-CONNECT BUTTON/ START BUTTON
-        self.connect_button=tk.Button(self.options_window,text='START',bg='#1d7b72',font='Arial 12',relief='groove',command=self.play_play)
-        self.connect_button.pack()
-        
-    def close_options(self):
-        'κλείσιμο παραθύρου επιλογών'
-        #song = AudioSegment.from_wav('sound-16.wav')
-        #play(song)
-        click.play()
-        options_window.destroy()  
+        game_gui.game(bg_color, music_multiplier)        #from game_gui module function game ->initializes the game
 
     #COLOR CHANGE WHEN MOUSE HOVERS OVER BUTTONS  
     def color_config(self,widget, color, event):
@@ -191,33 +144,24 @@ class Settings():
 
         #MUSIC BUTTON
         self.music_button=tk.Button(self.window,text='music',relief='groove',command=self.adjust_music)
-        self.music_button.bind('<Enter>',partial(self.menu.color_config,self.music_button,'red'))
-        self.music_button.bind("<Leave>", partial(self.menu.color_config, self.music_button, "black"))
+        self.music_button.bind('<Enter>',partial(self.color_config,self.music_button,'red'))
+        self.music_button.bind("<Leave>", partial(self.color_config, self.music_button, "black"))
         self.music_button.pack()
         #BACKROUND COLOR BUTTON
         self.color_button=tk.Button(self.window,text='color',relief='groove',command=self.color_choice)
-        self.color_button.bind('<Enter>',partial(self.menu.color_config,self.color_choice,'red'))
-        self.color_button.bind("<Leave>", partial(self.menu.color_config, self.color_choice, "black"))
+        self.color_button.bind('<Enter>',partial(self.color_config,self.color_button,'red'))
+        self.color_button.bind("<Leave>", partial(self.color_config, self.color_button, "black"))
         self.color_button.pack()
-        
-
-############################## CURRENTLY THIS ISNT WORKING ##############################        
-        #exit,save button 
+        #EXIT BUTTON
         self.exit_button=tk.Button(self.window,text='exit',relief='groove',command=self.settings_exit)
+        self.exit_button.bind('<Enter>',partial(self.color_config,self.exit_button,'red'))
+        self.exit_button.bind("<Leave>", partial(self.color_config, self.exit_button, "black"))
         self.exit_button.pack()
 
-         
-#Unnecessary gadget since there is only the click sfx
-    #sound effects volume slider(?) 0-100
-##    def adjust_sfx(self):
-##        self.sfx_window=tk.Toplevel(self.root,bg=bg_color,height=400,width=400)
-##        self.w = tk.Scale(self.sfx_window, from_=0.0, to=100, orient='horizontal',bg=bg_color)
-##        self.w.pack()
-##        self.inp=self.w.get()
-##        self.click.play.volume=self.inp/100
-##        self.config["sfx_multiplier"] = self.sfx_multiplier = self.inp/100 #change 100 as necessary so input is in range
-##        #find sounds to add, find module for sound manipulation in python
-        
+        #COLOR CHANGE WHEN MOUSE HOVERS OVER BUTTONS  
+    def color_config(self,widget, color, event):
+        '''αλλαγή χρώματος κουμπιού όταν το ποντίκι είναι απο πάνω του'''
+        widget.config(foreground=color)
 
     
 ##### MUSIC VOLUME FUNCTIONS  ######
@@ -253,43 +197,25 @@ class Settings():
 
         #same as above
 
-
-
-############################## CURRENTLY THIS ISNT WORKING ##############################
-    #exit settings GUI, replace quit() with tkinter kill()
     def settings_exit(self): 
         with open("config.yaml", "w") as f: yaml.dump(config, f)
         self.root.destroy()
         main()
-    #BACKROUND COLOR BUTTON COMMAND
 
+    #BACKROUND COLOR BUTTON COMMAND
     def color_choice(self):
         click.play()
         config["bg_color"] = colorchooser.askcolor(title = "Select a color", color = bg_color)[1]
         self.settings_exit()
 
     
-
-
-
-###################################################################  Main Program #########################################################################        
-##pyglet.options['debug_media'] = True
-
-#sound preparation/loading
 pyglet.options['audio'] = ('openal', 'pulse', 'directsound', 'silent')
 click = pyglet.media.load('sound-16.wav',streaming=False)
 player_2 = pyglet.media.Player()
 music= pyglet.media.load('jazzy-abstract-beat-11254.mp3', streaming=False) #StaticSource object
 player_2.loop=True
 player_2.queue(music)
-player_2.volume=0.2
 
 
-#pyglet loop didn't cooperate
-#pyglet.app.run()
-##mus=pyglet.media.load('sound-16.wav',streaming=False)
-##pl=mus.play()
-##pl.loop=True
-##pyglet.app.run()
 
 if __name__=='__main__': main()
