@@ -1,4 +1,3 @@
 ---
-"bg_color": "#069486"
-"sfx_multiplier": 1.00
-"music_multiplier": 1.00
+bg_color: "#069486"
+music_multiplier: 1.00

@@ -66,11 +66,7 @@ def game():
         def mainmenu(self):
             self.root.destroy()
             #self.win.destroy() #to win καταστρεφεται αυτοματα ως tk.Toplevel
-            root2=tk.Tk()
-            root2.title('Python Word Game')
-            root2.geometry('1000x500+50+50')
-            final_menu.Menu(root2)
-            root2.mainloop()
+            final_menu.main()
             #self.mainMenu()
             #root.destroy()
 

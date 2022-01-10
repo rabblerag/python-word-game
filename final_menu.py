@@ -15,9 +15,31 @@ from tkinter import colorchooser
 ##from pydub.playback import play
 ###from playsound import playsound
 
+#for reinitialization
+def main():
+    global bg_color, music_multiplier, config
+    #initialize settings
+    with open("config.yaml", "r") as f: config = yaml.load(f, Loader=yaml.FullLoader)
+    bg_color = config["bg_color"]
+    music_multiplier = config["music_multiplier"]
+    #initializ
+    root=tk.Tk()
+    root.title('Python Word Game')
+    root.geometry('1000x600+140+30')
+    Menu(root)
+    root.mainloop()
+    
+    #pyglet.app.exit()
+    #pyglet.app.run()
+
+
+
 
 #class for the menu GUI, separate from settings
 class Menu():
+
+    global bg_color, music_multiplier
+
     #add tkinter etc.
     def __init__(self,root):
         
@@ -30,13 +52,13 @@ class Menu():
         self.root=root          #cannot be connected with other modules without this
         self.f1=tk.Frame(root,width=1000)
         self.f1.pack(side='top')
-        label1=tk.Label(self.f1,text="Python Word Game", font='Vivaldi 40',bg='#069486',width=1000)
+        label1=tk.Label(self.f1,text="Python Word Game", font='Vivaldi 40',bg=bg_color,width=1000)
         label1.pack(expand=1,fill='x')
-        label2=tk.Label(self.f1,text='MENU', font='Stencil 40',bg="#069486",width=1000)
+        label2=tk.Label(self.f1,text='MENU', font='Stencil 40',bg=bg_color,width=1000)
         label2.pack()
-        self.f4=tk.Frame(root,width=500,bg='#069486')
+        self.f4=tk.Frame(root,width=500,bg=bg_color)
         self.f4.pack(side='top',expand=1,fill='both')
-        self.f2=tk.Frame(root,width=500,bg='#069486')
+        self.f2=tk.Frame(root,width=500,bg=bg_color)
         self.f2.pack(side='top',expand=1,fill='both')
         #PLAY
         self.play_button=tk.Button(self.f2,text='PLAY',font='Arial 16',relief='groove',bg='#942706',command=self.play_game)
@@ -79,7 +101,7 @@ class Menu():
         click.play()
         global options_window
         
-        options_window=tk.Toplevel(self.root,bg='#069486',height=400,width=400)  #παράθυρο επιλογής δυσκολίας
+        options_window=tk.Toplevel(self.root,bg=bg_color,height=400,width=400)  #παράθυρο επιλογής δυσκολίας
         self.options_window=options_window
         options_window.geometry("400x166+440+217")
 
@@ -121,7 +143,7 @@ class Menu():
     #COLOR CHANFE WHEN MOUSE HOVERS OVER BUTTONS  
     def color_config(self,widget, color, event):
         '''αλλαγή χρώματος κουμπιού όταν το ποντίκι είναι απο πάνω του'''
-        widget.configure(foreground=color)
+        widget.config(foreground=color)
 
 
     #show leaderboards, WIP
@@ -141,7 +163,7 @@ class Menu():
     def settings(self):
         click.play()
         #SETTINGS WINDOW
-        self.settings_window=tk.Toplevel(self.root,bg='#069486')  #παράθυρο ρυθμίσεων ήχου και μουσικής
+        self.settings_window=tk.Toplevel(self.root,bg=bg_color)  #παράθυρο ρυθμίσεων ήχου και μουσικής
         self.settings_window.geometry('200x166+440+217')
         self.settings = Settings(self.settings_window,self) #οπως 5ο εργαστηριο #class SETTINGS
         #self.settings_window.geometry('100x100')
@@ -151,6 +173,9 @@ class Menu():
 #class for settings GUI, separate from menu
 #store settings in a .yaml file
 class Settings():
+
+    global bg_color, music_multiplier, config
+
     def __init__(self,window,menu):
         self.player_2=player_2     #player
         #self.player_2.loop=True
@@ -170,30 +195,23 @@ class Settings():
         self.music_button.bind("<Leave>", partial(self.menu.color_config, self.music_button, "black"))
         self.music_button.pack()
         #BACKROUND COLOR BUTTON
-        self.color_button=tk.Button(self.window,text='color',relief='groove',command=self.color_button)
-        self.color_button.bind('<Enter>',partial(self.menu.color_config,self.color_button,'red'))
-        self.color_button.bind("<Leave>", partial(self.menu.color_config, self.color_button, "black"))
+        self.color_button=tk.Button(self.window,text='color',relief='groove',command=self.color_choice)
+        self.color_button.bind('<Enter>',partial(self.menu.color_config,self.color_choice,'red'))
+        self.color_button.bind("<Leave>", partial(self.menu.color_config, self.color_choice, "black"))
         self.color_button.pack()
         
 
 ############################## CURRENTLY THIS ISNT WORKING ##############################        
         #exit,save button 
-##        self.exit_button=tk.Button(self.window,text='exit',relief='groove',command=self.settings_exit)
-##        self.exit_button.pack()
-##        
-##
-##
-##        
-##        with open("config.yaml", "r") as f: self.config = yaml.safe_load(f)
-##        self.sfx_multiplier = self.config["sfx_multiplier"]
-##        self.music_multiplier = self.config["music_multiplier"]
-##        self.selected_color = self.config["selected_color"]
+        self.exit_button=tk.Button(self.window,text='exit',relief='groove',command=self.settings_exit)
+        self.exit_button.pack()
+
          
 #Unnecessary gadget since there is only the click sfx
     #sound effects volume slider(?) 0-100
 ##    def adjust_sfx(self):
-##        self.sfx_window=tk.Toplevel(self.root,bg='#069486',height=400,width=400)
-##        self.w = tk.Scale(self.sfx_window, from_=0.0, to=100, orient='horizontal',bg='#069486')
+##        self.sfx_window=tk.Toplevel(self.root,bg=bg_color,height=400,width=400)
+##        self.w = tk.Scale(self.sfx_window, from_=0.0, to=100, orient='horizontal',bg=bg_color)
 ##        self.w.pack()
 ##        self.inp=self.w.get()
 ##        self.click.play.volume=self.inp/100
@@ -208,22 +226,26 @@ class Settings():
         'USED BY ok button to change the volume'
         self.inp=self.w.get()
         self.player_2.volume=self.inp/100
-##        self.config["music_multiplier"] = self.music_multiplier = self.inp/100    #fix later
+        config["music_multiplier"] = self.player_2.volume
+        with open("config.yaml", "w") as f: yaml.dump(config, f)
+        self.root.destroy()
+        main()
         
     #MUSIC WINDOW    
     def adjust_music(self):
         'creates the music toplevel,slider,buttons'
         click.play()
-        self.music_window=tk.Toplevel(self.root,bg='#069486',height=400,width=400)
+        self.music_window=tk.Toplevel(self.root,bg=bg_color,height=400,width=400)
         self.music_window.geometry('400x200')
         #play button
-        self.play_button=tk.Button(self.music_window,text='play',relief='groove',command=self.player_2.play)
+        self.play_button=tk.Button(self.music_window,text='unmute',relief='groove',command=self.player_2.play)
         self.play_button.pack()
         #pause button
-        self.pause_button=tk.Button(self.music_window,text='pause',relief='groove',command=self.player_2.pause)
+        self.pause_button=tk.Button(self.music_window,text='mute',relief='groove',command=self.player_2.pause)
         self.pause_button.pack()
         #slider
-        self.w = tk.Scale(self.music_window, from_=0.0, to=100, orient='horizontal',bg='#069486')
+        self.w = tk.Scale(self.music_window, from_=0.0, to=100, orient='horizontal',bg=bg_color)
+        self.w.set(music_multiplier*100)
         self.w.pack()
         #ok button    
         self.ok_button=tk.Button(self.music_window,text='ok',relief='groove',command=self.x)
@@ -236,29 +258,17 @@ class Settings():
 ############################## CURRENTLY THIS ISNT WORKING ##############################
     #exit settings GUI, replace quit() with tkinter kill()
     def settings_exit(self): 
-        #implement in tkinter with buttons
-        #x = input("Save changes?(Y/N):")
-        if x == "Y": 
-            with open("config.yaml", "w") as f: yaml.dump(self.config, f)
-        quit()
-        #root.kill() or equivalent
-
+        with open("config.yaml", "w") as f: yaml.dump(config, f)
+        self.root.destroy()
+        main()
     #BACKROUND COLOR BUTTON COMMAND
 
-    def color_button(self):
+    def color_choice(self):
         click.play()
-        choice = colorchooser.askcolor(title = "Select a color")[1]
-        self.bg_color(choice)
-    #let the user choose a bg color
-    def bg_color(self, choice):
-        
-        choice = colorchooser.askcolor(title = "Select a color")[1]
-        self.config["bg_color"], self.bg_color = choice
-        #set_bg_color(self.selected_color)
-        #options: black, white, red, blue etc.
-        #or: let user change the color based on RGB values on 3 sliders
-        if choice in self.config["bg_colors"]: self.config["selected_color"] = self.selected_color = choice
-        #set_bg_color(self.selected_color)
+        config["bg_color"] = colorchooser.askcolor(title = "Select a color", color = bg_color)[1]
+        self.settings_exit()
+
+    
 
 
 
@@ -282,13 +292,4 @@ player_2.volume=0.2
 ##pl.loop=True
 ##pyglet.app.run()
 
-if __name__=='__main__':
-    root=tk.Tk()
-    root.title('Python Word Game')
-    root.geometry('1000x600+140+30')
-    Menu(root)
-    root.mainloop()
-    
-    #pyglet.app.exit()
-    #pyglet.app.run()
-
+if __name__=='__main__': main()
