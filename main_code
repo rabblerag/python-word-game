@@ -10,6 +10,10 @@ import itertools
 import time
 
 
+oops=pyglet.media.load('Sad_Trombone.wav',streaming=False)
+wins=pyglet.media.load('win.wav',streaming=False)
+
+
 old_words = []
 letters = []   
 score = 0 
