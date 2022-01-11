@@ -8,6 +8,7 @@ import random
 import string
 import itertools
 import time
+import pyglet
 
 
 oops=pyglet.media.load('Sad_Trombone.wav',streaming=False)
