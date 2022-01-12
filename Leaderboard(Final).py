@@ -1,17 +1,19 @@
 import tkinter as tk
+import yaml
 
 class Leaderboard:
     def __init__(self, Leaderboard):
         
         #Get the scores located on the leadeboard.txt
-        with open('leaderboard.txt') as f:
-            file_contents=f.read()
-            flist = file_contents.split()
-            scoredictunsorted = {flist[i]: flist[i + 1] for i in range(0, len(flist), 2)}
-        #Sort the dictionary by highest to lowest score   
-        for value in scoredictunsorted:
-            scoredictunsorted[value]=int(scoredictunsorted[value])
-        scoredict = sorted(scoredictunsorted.items(), key=lambda x: x[1], reverse=True)
+        with open('leaderboard.yaml') as f: scoredict = yaml.load(f, Loader = yaml.FullLoader)
+        #     file_contents=f.read()
+        #     flist = file_contents.split()
+        #     scoredictunsorted = {flist[i]: flist[i + 1] for i in range(0, len(flist), 2)}
+        # #Sort the dictionary by highest to lowest score   
+        # for value in scoredictunsorted:
+        #     scoredictunsorted[value]=int(scoredictunsorted[value])
+        scoredict = sorted(scoredict.items(), key=lambda x: x[1], reverse=True)
+        
 
 
         #Create the interface
@@ -29,7 +31,7 @@ class Leaderboard:
         #Go home button
         self.b=tk.Button(self.frame,text='Back to the Game',font='Arial40',bg='red',activebackground="yellow",command=self.buttonPushed)
         self.b.pack(side="top",expand="True",fill="both")
-        #Adding Labels for Player Names and there Scores
+        #Adding Labels for Player Names and their Scores
         self.f2=tk.Frame(self.frame,bg='grey')
         self.f2.pack(expand=1, fill='both', side='top')
         self.w=tk.Label(self.f2,text="PLAYER NAME",font=('Arial', 20),bg='grey')
