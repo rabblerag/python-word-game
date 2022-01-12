@@ -32,9 +32,9 @@ class Leaderboard:
         #Adding Labels for Player Names and there Scores
         self.f2=tk.Frame(self.frame,bg='grey')
         self.f2.pack(expand=1, fill='both', side='top')
-        self.w=tk.Label(self.f2,text="PLAYER NAME",font=('Arial', 20),bg='grey')
+        self.w=tk.Label(self.f2,text="PLAYER NAME",font=('Arial', 15),bg='grey')
         self.w.pack(side="left")
-        self.w=tk.Label(self.f2,text="SCORE",font=('Arial', 20),bg='grey')
+        self.w=tk.Label(self.f2,text="SCORE",font=('Arial', 15),bg='grey')
         self.w.pack(side="right")
 
         #Counters for ranking the players
