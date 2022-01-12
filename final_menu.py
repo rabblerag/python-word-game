@@ -6,7 +6,7 @@ from functools import partial
 import pyglet
 import game_gui
 from tkinter import colorchooser
-
+import leaderboard
 
 
 
@@ -37,12 +37,11 @@ class Menu():
     
     def __init__(self,root):
 
-        self.click=click
-        self.player_2=player_2
-        #pyglet.app.run()
-        #self.player_2.loop=True
-        self.player_2.play()
-        self.root=root          #cannot be connected with other modules without this
+        self.click=click                 #sound effect for click defined as part of the class
+        self.player_2=player_2           #music player as part of the class
+        self.player_2.play()             #music starts playing(this command has no effect on the player if the player is already playing
+        self.root=root                   #cannot be connected with other modules without this
+        #Frame 1
         self.f1=tk.Frame(root,width=1000)
         self.f1.pack(side='top')
         self.label1=tk.Label(self.f1,text="Python Word Game", font='Vivaldi 40',bg=bg_color,width=1000)
@@ -56,7 +55,7 @@ class Menu():
         self.f4.pack(side='top',expand=1,fill='both')
         self.f2=tk.Frame(root,width=500,bg=bg_color)
         self.f2.pack(side='top',expand=1,fill='both')
-        #PLAY
+        #PLAY Button
         self.play_button=tk.Button(self.f2,text='PLAY',font='Arial 16',relief='groove',bg='#1d7b72',command=self.play_game)
         self.play_button.pack(side='top')
         #self.play_button.bind('<Enter>',self.color_config(self.play_button, "red",event)) 
@@ -65,17 +64,19 @@ class Menu():
         self.play_button.bind("<Leave>", partial(self.color_config, self.play_button, "black"))
         #partial 'freezes' a function at a specific instant, therefore we dont have to create different function for each color 
         
-        #LEADERBOARD
+        #LEADERBOARD Button
         self.leader_button=tk.Button(self.f2,text='LEADERBOARD',font='Arial 16',relief='groove',bg='#1d7b72',command=self.leaderboard)
         self.leader_button.pack(side='top')
         self.leader_button.bind('<Enter>',partial(self.color_config, self.leader_button, "red"))
         self.leader_button.bind("<Leave>", partial(self.color_config, self.leader_button, "black"))
-        #SETTINGS
+        
+        #SETTINGS Button
         self.settings_button=tk.Button(self.f2,text='SETTINGS',font='Arial 16',relief='groove',bg='#1d7b72',command=self.settings)
         self.settings_button.pack(side='top')
         self.settings_button.bind('<Enter>',partial(self.color_config, self.settings_button, "red")) #"#942706" complementary color
         self.settings_button.bind("<Leave>", partial(self.color_config, self.settings_button, "black"))
-        #QUIT
+        
+        #QUIT Button
         self.quit_button=tk.Button(self.f2,text='EXIT',font='Arial 16',relief='groove',bg='#f53b57',command=self.game_exit)
         self.quit_button.pack(side='top')
         self.quit_button.bind('<Enter>',partial(self.color_config, self.quit_button, "blue")) #"#f53b57" complementary color
@@ -97,6 +98,11 @@ class Menu():
     #show leaderboards, WIP
     def leaderboard(self):
         click.play()
+        self.player_2.delete()   #delete the music player when ecxiting the game
+        self.root.destroy()
+        leaderboard.lmain()
+
+
 
 
     #exit the game, replace quit() with tkinter kill()
@@ -138,8 +144,6 @@ class Settings():
         self.menu=menu
         self.root=self.menu.root #αρχικο παραθυρο απο την κλάση μενού
         
-
-
         #MUSIC BUTTON
         self.music_button=tk.Button(self.window,text='music',relief='groove',command=self.adjust_music)
         self.music_button.bind('<Enter>',partial(self.color_config,self.music_button,'red'))
@@ -193,8 +197,8 @@ class Settings():
         self.ok_button=tk.Button(self.music_window,text='ok',relief='groove',command=self.x)
         self.ok_button.pack()
 
-        #same as above
-
+        
+    #Αποθήκευση ρυθμίσεων, ξανατρέχει η main (για να εφαρμοστούν οι αλλαγές του χρήστη)
     def settings_exit(self): 
         with open("config.yaml", "w") as f: yaml.dump(config, f)
         self.root.destroy()
