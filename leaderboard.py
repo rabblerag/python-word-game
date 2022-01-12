@@ -5,11 +5,9 @@ import pyglet
 from functools import partial
 import yaml
 
-def lmain():
-    global bg_color, config,click
-    #initialize settings
-    with open("config.yaml", "r") as f: config = yaml.load(f, Loader=yaml.FullLoader)
-    bg_color = config["bg_color"]
+def lmain(bg):
+    global bg_color, click
+    bg_color = bg
     click = pyglet.media.load('sound-16.wav',streaming=False)
     #music_multiplier = config["music_multiplier"]
     #player_2.volume= 0.5 * music_multiplier
@@ -27,14 +25,8 @@ class Leaderboard:
         global click
         
         #Get the scores located on the leadeboard.txt
-        with open('leaderboard.txt') as f:
-            file_contents=f.read()
-            flist = file_contents.split()
-            scoredictunsorted = {flist[i]: flist[i + 1] for i in range(0, len(flist), 2)}
-        #Sort the dictionary by highest to lowest score   
-        for value in scoredictunsorted:
-            scoredictunsorted[value]=int(scoredictunsorted[value])
-        scoredict = sorted(scoredictunsorted.items(), key=lambda x: x[1], reverse=True)
+        with open('leaderboard.yaml') as f: scoredict = yaml.load(f, Loader = yaml.FullLoader)
+        scoredict = sorted(scoredict.items(), key=lambda x: x[1], reverse=True)
 
 
         #Create the interface
@@ -72,7 +64,7 @@ class Leaderboard:
         #Displaying the players names followed by there scores
         for key,value in scoredict:
             self.position="#"+str(self.count)
-            self.f=tk.Frame(self.frame,bg='green', bd=10,padx=10,highlightbackground="grey",highlightthickness=2)
+            self.f=tk.Frame(self.frame,bg=bg_color, bd=10,padx=10,highlightbackground="grey",highlightthickness=2)
             self.f.pack(expand=1, fill='both', side='top')
             self.lb=tk.Label(self.f,text=self.position,font='Arial40')
             self.lb.pack(side="left")
@@ -99,6 +91,7 @@ class Leaderboard:
         #Reset the scroll region to encompass the inner frame
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
         
-if __name__ == '__main__':lmain()
+
+
 
 

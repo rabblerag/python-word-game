@@ -100,7 +100,7 @@ class Menu():
         click.play()
         self.player_2.delete()   #delete the music player when ecxiting the game
         self.root.destroy()
-        leaderboard.lmain()
+        leaderboard.lmain(bg_color)
 
 
 
