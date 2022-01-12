@@ -12,12 +12,13 @@ import leaderboard
 
 #for reinitialization
 def main():
-    global bg_color, music_multiplier, config
+    global bg_color, music_multiplier, muted, config
     #initialize settings
     with open("config.yaml", "r") as f: config = yaml.load(f, Loader=yaml.FullLoader)
     bg_color = config["bg_color"]
     music_multiplier = config["music_multiplier"]
-    player_2.volume= 0.5 * music_multiplier
+    muted = config["muted"]
+    player_2.volume= 0.6 * music_multiplier * int(not(config["muted"]))
     #initializ
     root=tk.Tk()
     root.title('Python Word Game')
@@ -98,7 +99,7 @@ class Menu():
     #show leaderboards, WIP
     def leaderboard(self):
         click.play()
-        self.player_2.delete()   #delete the music player when ecxiting the game
+        #self.player_2.delete()   #delete the music player when ecxiting the game
         self.root.destroy()
         leaderboard.lmain(bg_color)
 
@@ -134,7 +135,7 @@ class Menu():
 #store settings in a .yaml file
 class Settings():
 
-    global bg_color, music_multiplier, config
+    global bg_color, music_multiplier, muted, config
 
     def __init__(self,window,menu):
         self.player_2=player_2     #player
@@ -170,12 +171,26 @@ class Settings():
         
     def x(self):
         'USED BY ok button to change the volume'
-        self.inp=self.w.get()
-        self.player_2.volume=self.inp/100
-        config["music_multiplier"] = self.player_2.volume
+        global muted
+        music_multiplier=self.w.get()/100
+        config["music_multiplier"] = music_multiplier
         with open("config.yaml", "w") as f: yaml.dump(config, f)
         self.root.destroy()
         main()
+
+    def mute(self):
+        global muted
+        muted = True
+        config["muted"] = True
+        player_2.volume = 0
+        with open("config.yaml", "w") as f: yaml.dump(config, f)
+
+    def unmute(self):
+        global muted
+        muted = False
+        config["muted"] = False
+        player_2.volume = 0.6 * music_multiplier
+        with open("config.yaml", "w") as f: yaml.dump(config, f)
         
     #MUSIC WINDOW    
     def adjust_music(self):
@@ -183,12 +198,12 @@ class Settings():
         click.play()
         self.music_window=tk.Toplevel(self.root,bg=bg_color,height=400,width=400)
         self.music_window.geometry('400x200')
-        #play button
-        self.play_button=tk.Button(self.music_window,text='unmute',relief='groove',command=self.player_2.play)
-        self.play_button.pack()
-        #pause button
-        self.pause_button=tk.Button(self.music_window,text='mute',relief='groove',command=self.player_2.pause)
+        #mute button
+        self.pause_button=tk.Button(self.music_window,text='mute',relief='groove',command=self.mute)
         self.pause_button.pack()
+        #unmute button
+        self.play_button=tk.Button(self.music_window,text='unmute',relief='groove',command=self.unmute)
+        self.play_button.pack()
         #slider
         self.w = tk.Scale(self.music_window, from_=0.0, to=100, orient='horizontal',bg=bg_color)
         self.w.set(music_multiplier*100)
