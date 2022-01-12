@@ -10,8 +10,9 @@ import string
 
 newlettersound=pyglet.media.load('mixkit-retro-game-notification-212.wav',streaming=False)
 k = ["a","b","c","d","e"]
-def game(bg, music):
-    global bg_color, music_multiplier
+def game(bg, music, player):
+    global bg_color, music_multiplier, player_2
+    player_2 = player
     bg_color = bg
     music_multiplier = music
     root = tk.Tk()
@@ -44,7 +45,7 @@ class Restart():            ###parathiro epibebaiosis restart
     def yesbtn(self):
         self.win3.destroy()
         self.root.destroy()
-        game(bg_color, music_multiplier)
+        game(bg_color, music_multiplier, player_2)
 ##------------------------------------------------------------    
     def nobtn(self):
         self.win3.destroy()
@@ -78,7 +79,7 @@ class MyMenu():         ####parathuro epibebaiosis epistrofi sto menou
         self.win.destroy()
         self.root.destroy()
         #self.win.destroy() #to win καταστρεφεται αυτοματα ως tk.Toplevel
-        final_menu.main()
+        final_menu.main(player_2)
         #self.mainMenu()
         #self.root.destroy()
 

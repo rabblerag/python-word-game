@@ -1,4 +1,5 @@
 #needed for settings class
+from pyglet.media import player
 import yaml
 import tkinter as tk
 from tkinter import ttk
@@ -11,14 +12,24 @@ import leaderboard
 
 
 #for reinitialization
-def main():
-    global bg_color, music_multiplier, muted, config
+def main(player=None):
+    global bg_color, music_multiplier, muted, click,player_2, config
+    player_2 = player
     #initialize settings
     with open("config.yaml", "r") as f: config = yaml.load(f, Loader=yaml.FullLoader)
     bg_color = config["bg_color"]
     music_multiplier = config["music_multiplier"]
     muted = config["muted"]
+    try: player_2.delete()
+    except Exception: pass
+    pyglet.options['audio'] = ('openal', 'pulse', 'directsound', 'silent')
+    click = pyglet.media.load('sound-16.wav',streaming=False)
+    player_2 = pyglet.media.Player()
+    music= pyglet.media.load('jazzy-abstract-beat-11254.mp3', streaming=False) #StaticSource object
+    player_2.loop=True
+    player_2.queue(music)
     player_2.volume= 0.6 * music_multiplier * int(not(config["muted"]))
+    player_2.play()
     #initializ
     root=tk.Tk()
     root.title('Python Word Game')
@@ -33,14 +44,14 @@ def main():
 #class for the menu GUI, separate from settings
 class Menu():
 
-    global bg_color, music_multiplier
+    global bg_color, music_multiplier, click, player_2
 
     
     def __init__(self,root):
 
         self.click=click                 #sound effect for click defined as part of the class
-        self.player_2=player_2           #music player as part of the class
-        self.player_2.play()             #music starts playing(this command has no effect on the player if the player is already playing
+        #self.player_2=player_2           #music player as part of the class
+        #self.player_2.play()             #music starts playing(this command has no effect on the player if the player is already playing
         self.root=root                   #cannot be connected with other modules without this
         #Frame 1
         self.f1=tk.Frame(root,width=1000)
@@ -86,9 +97,9 @@ class Menu():
     def play_game(self):
         'χρησιμοποιείται από το START BUTTON που συνδέει το μενού με το game gui'
         click.play()
-        self.player_2.pause()  #stop the menu music
+        player_2.pause()  #stop the menu music
         self.root.destroy()    #close the menu window
-        game_gui.game(bg_color, music_multiplier)        #from game_gui module function game ->initializes the game
+        game_gui.game(bg_color, music_multiplier, player_2)        #from game_gui module function game ->initializes the game
 
     #COLOR CHANGE WHEN MOUSE HOVERS OVER BUTTONS  
     def color_config(self,widget, color, event):
@@ -101,7 +112,7 @@ class Menu():
         click.play()
         #self.player_2.delete()   #delete the music player when ecxiting the game
         self.root.destroy()
-        leaderboard.lmain(bg_color)
+        leaderboard.lmain(bg_color, player_2)
 
 
 
@@ -109,8 +120,6 @@ class Menu():
     #exit the game, replace quit() with tkinter kill()
     def game_exit(self):
         click.play()
-        self.root.destroy()
-        self.player_2.delete()
         quit()
         
         
@@ -135,10 +144,10 @@ class Menu():
 #store settings in a .yaml file
 class Settings():
 
-    global bg_color, music_multiplier, muted, config
+    global bg_color, music_multiplier, muted, click, player_2, config
 
     def __init__(self,window,menu):
-        self.player_2=player_2     #player
+        #self.player_2=player_2     #player
         #self.player_2.loop=True
         #self.click=click
         self.window=window
@@ -217,7 +226,7 @@ class Settings():
     def settings_exit(self): 
         with open("config.yaml", "w") as f: yaml.dump(config, f)
         self.root.destroy()
-        main()
+        main(player_2)
 
     #BACKROUND COLOR BUTTON COMMAND
     def color_choice(self):
@@ -226,15 +235,5 @@ class Settings():
         #Μολις επιλέξει χρώμα ο χρήστης η main ξανατρέχει και έτσι εφαρμόζονται οι αλλαγές του χρήστη
         #στην περιπτωση που το χρωμα γινει μαυρο καθως η main ξανακαλειται μεσω της self.settings_exit(), τα labels γίνονται άσπρα
         self.settings_exit()     
-
-    
-pyglet.options['audio'] = ('openal', 'pulse', 'directsound', 'silent')
-click = pyglet.media.load('sound-16.wav',streaming=False)
-player_2 = pyglet.media.Player()
-music= pyglet.media.load('jazzy-abstract-beat-11254.mp3', streaming=False) #StaticSource object
-player_2.loop=True
-player_2.queue(music)
-
-
 
 if __name__=='__main__': main()

@@ -5,8 +5,9 @@ import pyglet
 from functools import partial
 import yaml
 
-def lmain(bg):
-    global bg_color, click
+def lmain(bg, player):
+    global bg_color, click, player_2
+    player_2 = player
     bg_color = bg
     click = pyglet.media.load('sound-16.wav',streaming=False)
     #music_multiplier = config["music_multiplier"]
@@ -83,7 +84,7 @@ class Leaderboard:
         self.click.play()
         
         self.root.destroy()#Later change to return to the main game
-        final_menu.main()
+        final_menu.main(player_2)
 
             
     def onFrameConfigure(self, event):
