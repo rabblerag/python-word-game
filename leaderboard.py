@@ -91,8 +91,3 @@ class Leaderboard:
             
         #Reset the scroll region to encompass the inner frame
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
-        
-
-
-
-

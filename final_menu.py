@@ -14,7 +14,7 @@ import leaderboard
 #for reinitialization
 def main(player=None):
     global bg_color, music_multiplier, muted, click,player_2, config
-    player_2 = player
+    
     #initialize settings
     with open("config.yaml", "r") as f: config = yaml.load(f, Loader=yaml.FullLoader)
     bg_color = config["bg_color"]
@@ -22,13 +22,17 @@ def main(player=None):
     muted = config["muted"]
     try: player_2.delete()
     except Exception: pass
-    pyglet.options['audio'] = ('openal', 'pulse', 'directsound', 'silent')
-    click = pyglet.media.load('sound-16.wav',streaming=False)
-    player_2 = pyglet.media.Player()
-    music= pyglet.media.load('jazzy-abstract-beat-11254.mp3', streaming=False) #StaticSource object
-    player_2.loop=True
-    player_2.queue(music)
-    player_2.volume= 0.6 * music_multiplier * int(not(config["muted"]))
+    
+    #click = pyglet.media.load('sound-16.wav',streaming=False)
+    #player_2 = pyglet.media.Player()
+    #music= pyglet.media.load('jazzy-abstract-beat-11254.mp3', streaming=False) #StaticSource object
+    #player_2.queue(music)
+    #player_2.loop=True
+    #player_2.queue(music)
+    try:
+        player_2.volume= 0.6 * music_multiplier * int(not(config["muted"]))
+    except:
+        pass
     player_2.play()
     #initializ
     root=tk.Tk()
@@ -50,7 +54,7 @@ class Menu():
     def __init__(self,root):
 
         self.click=click                 #sound effect for click defined as part of the class
-        #self.player_2=player_2           #music player as part of the class
+        self.player_2=player_2           #music player as part of the class
         #self.player_2.play()             #music starts playing(this command has no effect on the player if the player is already playing
         self.root=root                   #cannot be connected with other modules without this
         #Frame 1
@@ -87,6 +91,12 @@ class Menu():
         self.settings_button.pack(side='top')
         self.settings_button.bind('<Enter>',partial(self.color_config, self.settings_button, "red")) #"#942706" complementary color
         self.settings_button.bind("<Leave>", partial(self.color_config, self.settings_button, "black"))
+
+        #CREDITS
+        self.credits_button=tk.Button(self.f2,text='CREDITS',font='Arial 16',relief='groove',bg='#1d7b72',command=self.credits)
+        self.credits_button.pack(side='top')
+        self.credits_button.bind('<Enter>',partial(self.color_config, self.credits_button, "red")) #"#942706" complementary color
+        self.credits_button.bind("<Leave>", partial(self.color_config, self.credits_button, "black"))        
         
         #QUIT Button
         self.quit_button=tk.Button(self.f2,text='EXIT',font='Arial 16',relief='groove',bg='#f53b57',command=self.game_exit)
@@ -99,7 +109,7 @@ class Menu():
         click.play()
         player_2.pause()  #stop the menu music
         self.root.destroy()    #close the menu window
-        game_gui.game(bg_color, music_multiplier, player_2)        #from game_gui module function game ->initializes the game
+        game_gui.game(bg_color, music_multiplier)        #from game_gui module function game ->initializes the game
 
     #COLOR CHANGE WHEN MOUSE HOVERS OVER BUTTONS  
     def color_config(self,widget, color, event):
@@ -114,12 +124,46 @@ class Menu():
         self.root.destroy()
         leaderboard.lmain(bg_color, player_2)
 
-
+    def credits(self):
+        click.play()
+        self.credit_win=tk.Toplevel(self.root,bg=bg_color)
+        self.credit_win.title('Credits')
+        self.credit_win.geometry('400x400+100+100')
+        #frame 1
+        self.f1=tk.Frame(self.credit_win,bg=bg_color)
+        self.f1.pack(fill='both',expand=1)
+        self.l1=tk.Label(self.f1,text='Royalty free sound effects from:',font='Arial 16',bg=bg_color)
+        self.l1.pack(fill='both',expand=1)
+        self.l1.bind('<Enter>',partial(self.color_config, self.l1, "red"))
+        self.l1.bind("<Leave>", partial(self.color_config, self.l1, "black"))
+        #frame 2
+        self.f2=tk.Frame(self.credit_win,bg=bg_color)
+        self.f2.pack(fill='both',expand=1)
+        self.l2=tk.Label(self.f2,text='Mixkit',font='Arial 16',bg=bg_color)
+        self.l2.pack(fill='both',expand=1)
+        self.l2.bind('<Enter>',partial(self.color_config, self.l2, "red"))
+        self.l2.bind("<Leave>", partial(self.color_config, self.l2, "black"))
+        #frame 3
+        self.f3=tk.Frame(self.credit_win,bg=bg_color)
+        self.f3.pack(fill='both',expand=1)
+        self.l3=tk.Label(self.f3,text='Creator Assets',font='Arial 16',bg=bg_color)
+        self.l3.pack(fill='both',expand=1)
+        self.l3.bind('<Enter>',partial(self.color_config, self.l3, "red"))
+        self.l3.bind("<Leave>", partial(self.color_config, self.l3, "black"))
+        #frame 4
+        self.f4=tk.Frame(self.credit_win,bg=bg_color)
+        self.f4.pack(fill='both',expand=1)
+        self.l4=tk.Label(self.f4,text='Pixabay',font='Arial 16',bg=bg_color)
+        self.l4.pack(fill='both',expand=1)
+        self.l4.bind('<Enter>',partial(self.color_config, self.l4, "red"))
+        self.l4.bind("<Leave>", partial(self.color_config, self.l4, "black"))        
 
 
     #exit the game, replace quit() with tkinter kill()
     def game_exit(self):
         click.play()
+        self.root.destroy()
+        player_2.delete()
         quit()
         
         
@@ -182,7 +226,9 @@ class Settings():
         'USED BY ok button to change the volume'
         global muted
         music_multiplier=self.w.get()/100
-        config["music_multiplier"] = music_multiplier
+        #config["music_multiplier"] = music_multiplier
+        player_2.volume=self.w.get()/100
+        config["music_multiplier"] = player_2.volume
         with open("config.yaml", "w") as f: yaml.dump(config, f)
         self.root.destroy()
         main()
@@ -234,6 +280,21 @@ class Settings():
         config["bg_color"] = colorchooser.askcolor(title = "Select a color", color = bg_color)[1]
         #Μολις επιλέξει χρώμα ο χρήστης η main ξανατρέχει και έτσι εφαρμόζονται οι αλλαγές του χρήστη
         #στην περιπτωση που το χρωμα γινει μαυρο καθως η main ξανακαλειται μεσω της self.settings_exit(), τα labels γίνονται άσπρα
-        self.settings_exit()     
+        self.settings_exit()
+
+
+
+
+
+#main ptrogram#
+
+
+
+pyglet.options['audio'] = ('openal', 'pulse', 'directsound', 'silent')
+click = pyglet.media.load('sound-16.wav',streaming=False)
+player_2 = pyglet.media.Player()
+music= pyglet.media.load('jazzy-abstract-beat-11254.mp3', streaming=False) #StaticSource object
+
+player_2.queue(music)
 
 if __name__=='__main__': main()
