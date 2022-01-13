@@ -129,34 +129,41 @@ class Menu():
         self.credit_win=tk.Toplevel(self.root,bg=bg_color)
         self.credit_win.title('Credits')
         self.credit_win.geometry('400x400+100+100')
+        self.foreground='black'
+        if config["bg_color"]=='#000000':self.foreground='white'
+        else:self.foreground='black'
         #frame 1
         self.f1=tk.Frame(self.credit_win,bg=bg_color)
         self.f1.pack(fill='both',expand=1)
-        self.l1=tk.Label(self.f1,text='Royalty free sound effects from:',font='Arial 16',bg=bg_color)
+        self.l1=tk.Label(self.f1,text='Royalty free sound effects from:',font='Arial 16',bg=bg_color,fg=self.foreground)
+        #if config["bg_color"]=='#000000':self.l1.configure(foreground='white')
         self.l1.pack(fill='both',expand=1)
         self.l1.bind('<Enter>',partial(self.color_config, self.l1, "red"))
-        self.l1.bind("<Leave>", partial(self.color_config, self.l1, "black"))
+        self.l1.bind("<Leave>", partial(self.color_config, self.l1, self.foreground))
         #frame 2
         self.f2=tk.Frame(self.credit_win,bg=bg_color)
         self.f2.pack(fill='both',expand=1)
-        self.l2=tk.Label(self.f2,text='Mixkit',font='Arial 16',bg=bg_color)
+        self.l2=tk.Label(self.f2,text='Mixkit',font='Arial 16',bg=bg_color,fg=self.foreground)
+        #if config["bg_color"]=='#000000':self.l2.configure(foreground='white')
         self.l2.pack(fill='both',expand=1)
         self.l2.bind('<Enter>',partial(self.color_config, self.l2, "red"))
-        self.l2.bind("<Leave>", partial(self.color_config, self.l2, "black"))
+        self.l2.bind("<Leave>", partial(self.color_config, self.l2, self.foreground))
         #frame 3
         self.f3=tk.Frame(self.credit_win,bg=bg_color)
         self.f3.pack(fill='both',expand=1)
-        self.l3=tk.Label(self.f3,text='Creator Assets',font='Arial 16',bg=bg_color)
+        self.l3=tk.Label(self.f3,text='Creator Assets',font='Arial 16',bg=bg_color,fg=self.foreground)
+        #if config["bg_color"]=='#000000':self.l3.configure(foreground='white')
         self.l3.pack(fill='both',expand=1)
         self.l3.bind('<Enter>',partial(self.color_config, self.l3, "red"))
-        self.l3.bind("<Leave>", partial(self.color_config, self.l3, "black"))
+        self.l3.bind("<Leave>", partial(self.color_config, self.l3, self.foreground))
         #frame 4
         self.f4=tk.Frame(self.credit_win,bg=bg_color)
         self.f4.pack(fill='both',expand=1)
-        self.l4=tk.Label(self.f4,text='Pixabay',font='Arial 16',bg=bg_color)
+        self.l4=tk.Label(self.f4,text='Pixabay',font='Arial 16',bg=bg_color,fg=self.foreground)
+        #if config["bg_color"]=='#000000':self.l4.configure(foreground='white')
         self.l4.pack(fill='both',expand=1)
         self.l4.bind('<Enter>',partial(self.color_config, self.l4, "red"))
-        self.l4.bind("<Leave>", partial(self.color_config, self.l4, "black"))        
+        self.l4.bind("<Leave>", partial(self.color_config, self.l4, self.foreground))        
 
 
     #exit the game, replace quit() with tkinter kill()
