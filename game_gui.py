@@ -29,7 +29,8 @@ def game(bg, sfx, player):
     root.mainloop()
 
     #go to main menu once mainloop is over, only happens when user chooses to return to main menu
-    final_menu.main(player_2)
+    player_2.delete()
+    final_menu.main()
 
 
 class Restart():            ###parathiro epibebaiosis restart
