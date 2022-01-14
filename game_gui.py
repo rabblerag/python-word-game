@@ -9,7 +9,7 @@ import random
 import string
 
 # φορτωση ήχων ως static sources
-endsound=pyglet.media.load('bbc_applause.mp3',streaming=False)
+#endsound=pyglet.media.load('bbc_applause.mp3',streaming=False)
 oops=pyglet.media.load('mixkit-system-beep-buzzer-fail-2964.wav',streaming=False)
 wins=pyglet.media.load('win.wav',streaming=False)
 newlettersound=pyglet.media.load('mixkit-retro-game-notification-212.wav',streaming=False)

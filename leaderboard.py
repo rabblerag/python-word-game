@@ -46,7 +46,7 @@ class Leaderboard:
         self.frame.bind("<Configure>", self.onFrameConfigure)
         
         #Go home button
-        self.b=tk.Button(self.frame,text='Back to the Menu',font='Arial40',bg='#1d7b72',activebackground="red",relief='groove',command=self.buttonPushed)
+        self.b=tk.Button(self.frame,text='Return to main menu',font='Arial40',bg='#1d7b72',activebackground="red",relief='groove',command=self.buttonPushed)
         self.b.bind('<Enter>',partial(self.color_config, self.b, "red")) 
         self.b.bind("<Leave>", partial(self.color_config, self.b, "black"))
         self.b.pack(side="top",expand="True",fill="both")
@@ -82,7 +82,6 @@ class Leaderboard:
         
     def buttonPushed(self):
         self.click.play()
-        
         self.root.destroy()#Later change to return to the main game
         final_menu.main(player_2)
 
