@@ -18,6 +18,9 @@ def lmain(bg, player, sfx):
     Leaderboard(root)
     root.mainloop()
 
+    #go to main menu once mainloop is over, only happens when user chooses to return to main menu
+    final_menu.main(player_2)
+
 class Leaderboard:
 
     global click
