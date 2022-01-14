@@ -182,16 +182,7 @@ class MyApp():
             self.entry.configure(fg = "red")
             self.entry["textvariable"] = self.entrytext
             self.root.update_idletasks()
-            self.root.after(600, self.wordreset())
-            
-             
-    def end(self):
-        #endsound.play().volume = 1.5 * sfx_multiplier
-
-    
-        
-    def show_text(self):
-        text = self.entry.get()
+            self.root.after(600, self.wordreset())    
 
     def menu(self):
         win = tk.Toplevel(self.root)
