@@ -207,7 +207,7 @@ class MyApp():
           new_letter = random.choice(string.ascii_lowercase)
           if new_letter in old_letters:
                count = count =+ 1
-               if count >= 2:
+               if count >= 1:
                     continue
           else:
                old_letters.append(new_letter)
