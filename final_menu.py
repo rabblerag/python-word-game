@@ -131,7 +131,7 @@ class Menu():
         #frame 1
         self.f1=tk.Frame(self.credit_win,bg=bg_color)
         self.f1.pack(fill='both',expand=1)
-        self.l1=tk.Label(self.f1,text='Royalty-free sound effects from:',font='Arial 16',bg=bg_color,fg=self.foreground)
+        self.l1=tk.Label(self.f1,text='Sound effects taken from: ',font='Arial 16',bg=bg_color,fg=self.foreground)
         self.l1.pack(fill='both',expand=1)
         self.l1.bind('<Enter>',partial(self.color_config, self.l1, "red"))
         self.l1.bind("<Leave>", partial(self.color_config, self.l1, self.foreground))
@@ -139,7 +139,7 @@ class Menu():
         #frame 2
         self.f2=tk.Frame(self.credit_win,bg=bg_color)
         self.f2.pack(fill='both',expand=1)
-        self.l2=tk.Label(self.f2,text='Mixkit',font='Arial 16',bg=bg_color,fg=self.foreground)
+        self.l2=tk.Label(self.f2,text='mixkit.co',font='Arial 16',bg=bg_color,fg=self.foreground)
         self.l2.pack(fill='both',expand=1)
         self.l2.bind('<Enter>',partial(self.color_config, self.l2, "red"))
         self.l2.bind("<Leave>", partial(self.color_config, self.l2, self.foreground))
@@ -147,7 +147,7 @@ class Menu():
         #frame 3
         self.f3=tk.Frame(self.credit_win,bg=bg_color)
         self.f3.pack(fill='both',expand=1)
-        self.l3=tk.Label(self.f3,text='Creator Assets',font='Arial 16',bg=bg_color,fg=self.foreground)
+        self.l3=tk.Label(self.f3,text='creatorassets.com',font='Arial 16',bg=bg_color,fg=self.foreground)
         self.l3.pack(fill='both',expand=1)
         self.l3.bind('<Enter>',partial(self.color_config, self.l3, "red"))
         self.l3.bind("<Leave>", partial(self.color_config, self.l3, self.foreground))
@@ -155,7 +155,7 @@ class Menu():
         #frame 4
         self.f4=tk.Frame(self.credit_win,bg=bg_color)
         self.f4.pack(fill='both',expand=1)
-        self.l4=tk.Label(self.f4,text='Pixabay',font='Arial 16',bg=bg_color,fg=self.foreground)
+        self.l4=tk.Label(self.f4,text='pixabay.com',font='Arial 16',bg=bg_color,fg=self.foreground)
         self.l4.pack(fill='both',expand=1)
         self.l4.bind('<Enter>',partial(self.color_config, self.l4, "red"))
         self.l4.bind("<Leave>", partial(self.color_config, self.l4, self.foreground))

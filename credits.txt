@@ -1,9 +1,9 @@
-click sound sound-16 effect: https://creatorassets.com/a/button-sound-effects 
+click sound: sound-16 effect from: https://creatorassets.com/a/button-sound-effects 
 
-victory sound effect, Retro game notification, failure buzzer sound effects from: https://mixkit.co
+victory sound effect, Retro game notification, failure buzzer sound effects from https://mixkit.co under the Mixkit Sound Effects Free License (https://mixkit.co/license/#sfxFree)
 
-https://mixkit.co/free-sound-effects/win/       mixkit-achievement-bell-600  win sound
-https://mixkit.co/free-sound-effects/win/       Retro game notification
-https://mixkit.co/free-sound-effects/buzzer/    mixkit-system-beep-buzzer-fail-2964.wav
+https://mixkit.co/free-sound-effects/win/       "Achievement bell"
+https://mixkit.co/free-sound-effects/win/       "Retro game notification"
+https://mixkit.co/free-sound-effects/buzzer/    "System Beep buzzer fail"
 
-menu music from: https://pixabay.com/music/beats-jazzy-abstract-beat-11254/
+menu music from: https://pixabay.com/music/beats-jazzy-abstract-beat-11254/ under the Pixabay License(https://pixabay.com/service/terms/#license)
