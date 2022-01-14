@@ -128,7 +128,7 @@ class MyApp():
         self.create_canvas()
         start = time.time()
 
-    def take_word(self, event):      ###apothikeuei ti leksi sti metabliti word otan o xristis pataei to koumpi me to belaki
+    def take_word(self, event = None):      ###apothikeuei ti leksi sti metabliti word otan o xristis pataei to koumpi me to belaki
         word = self.entrytext
         words = word.get()
 ##       elegxos leksis kai score 
