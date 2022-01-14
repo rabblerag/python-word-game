@@ -28,8 +28,7 @@ class Leaderboard:
         try:
             with open('leaderboard.yaml') as f: scoredict = yaml.load(f, Loader = yaml.FullLoader)
             scoredict = sorted(scoredict.items(), key=lambda x: x[1], reverse=True)
-        except Exception:
-            with open("leaderboard.yaml", "w") as f: scoredict = {}
+        except Exception: scoredict = {}
 
 
 

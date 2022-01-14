@@ -141,8 +141,6 @@ class MyApp():
             self.entry["textvariable"] = self.entrytext
             self.root.update_idletasks()
             self.root.after(600, self.wordreset())
-             
-            print('Την έχεις πει ήδη')
             
         elif len(words) == 1:
             self.entrytext.set("Την έχεις πει ήδη")
@@ -150,7 +148,6 @@ class MyApp():
             self.entry["textvariable"] = self.entrytext
             self.root.update_idletasks()
             self.root.after(600, self.wordreset())
-            print('Δώσε μια λέξη')
             
         elif all(letter in letters for letter in words):
             try:
@@ -165,8 +162,6 @@ class MyApp():
             self.entry["textvariable"] = self.entrytext
             self.root.update_idletasks()
             self.root.after(600, self.wordreset())
-            
-            print('Λάθος γράμματα')
 
     def wordreset(self):
         self.entrytext.set("")
@@ -180,9 +175,6 @@ class MyApp():
              score = score + multiplier
              self.scorevar.set(score)
              multiplier += 1
-             print('Score = {}'.format(score))
-##             with open('leaderboard.txt','a') as f:
-##                 f.write('Score = {}\n'.format(score))
                  
         else:
             oops.play().volume = 1.5 * sfx_multiplier       #για να μην υπαρχει καθυστερηση ο ήχος παιζει πρώτος
@@ -191,17 +183,15 @@ class MyApp():
             self.entry["textvariable"] = self.entrytext
             self.root.update_idletasks()
             self.root.after(600, self.wordreset())
-            #print('Δεν υπάρχει αυτή η λέξη')
             
              
     def end(self):
         #endsound.play().volume = 1.5 * sfx_multiplier
-        print('Τέλος παιχνιδιού')
+
     
         
     def show_text(self):
         text = self.entry.get()
-        print(text)
 
     def menu(self):
         win = tk.Toplevel(self.root)
@@ -403,7 +393,9 @@ class MyApp():
 
     def add_leaderboard(self, e=None):
         name = self.n_entry.get()
-        with open("leaderboard.yaml", "r") as f: lboard = yaml.load(f, Loader = yaml.FullLoader)
+        try:
+            with open("leaderboard.yaml", "r") as f: lboard = yaml.load(f, Loader = yaml.FullLoader)
+        except Exception: lboard = {}
         if name not in lboard or (name in lboard and score > lboard[name]):
             lboard[name] = score
             with open("leaderboard.yaml", "w") as f: yaml.dump(lboard, f)
