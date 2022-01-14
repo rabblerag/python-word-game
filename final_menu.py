@@ -105,7 +105,7 @@ class Menu():
         click.play().volume = 1.5 * sfx_multiplier
         player_2.pause()  #stop the menu music
         self.root.destroy()    #close the menu window
-        game_gui.game(bg_color, None)        #from game_gui module function game ->initializes the game
+        game_gui.game(bg_color, sfx_multiplier, player_2)        #from game_gui module function game ->initializes the game
 
     #COLOR CHANGE WHEN MOUSE HOVERS OVER BUTTONS  
     def color_config(self,widget, color, event): widget.config(foreground=color)
@@ -116,7 +116,7 @@ class Menu():
 
         click.play().volume = 1.5 * sfx_multiplier
         self.root.destroy()
-        leaderboard.lmain(bg_color, player_2)
+        leaderboard.lmain(bg_color, player_2, sfx_multiplier)
 
     def credits(self):
 
@@ -131,9 +131,7 @@ class Menu():
         #frame 1
         self.f1=tk.Frame(self.credit_win,bg=bg_color)
         self.f1.pack(fill='both',expand=1)
-        self.l1=tk.Label(self.f1,text='Royalty free sound effects from:',font='Arial 16',bg=bg_color,fg=self.foreground)
-
-        #if config["bg_color"]=='#000000':self.l1.configure(foreground='white')
+        self.l1=tk.Label(self.f1,text='Royalty-free sound effects from:',font='Arial 16',bg=bg_color,fg=self.foreground)
         self.l1.pack(fill='both',expand=1)
         self.l1.bind('<Enter>',partial(self.color_config, self.l1, "red"))
         self.l1.bind("<Leave>", partial(self.color_config, self.l1, self.foreground))
@@ -142,8 +140,6 @@ class Menu():
         self.f2=tk.Frame(self.credit_win,bg=bg_color)
         self.f2.pack(fill='both',expand=1)
         self.l2=tk.Label(self.f2,text='Mixkit',font='Arial 16',bg=bg_color,fg=self.foreground)
-
-        #if config["bg_color"]=='#000000':self.l2.configure(foreground='white')
         self.l2.pack(fill='both',expand=1)
         self.l2.bind('<Enter>',partial(self.color_config, self.l2, "red"))
         self.l2.bind("<Leave>", partial(self.color_config, self.l2, self.foreground))
@@ -152,8 +148,6 @@ class Menu():
         self.f3=tk.Frame(self.credit_win,bg=bg_color)
         self.f3.pack(fill='both',expand=1)
         self.l3=tk.Label(self.f3,text='Creator Assets',font='Arial 16',bg=bg_color,fg=self.foreground)
-
-        #if config["bg_color"]=='#000000':self.l3.configure(foreground='white')
         self.l3.pack(fill='both',expand=1)
         self.l3.bind('<Enter>',partial(self.color_config, self.l3, "red"))
         self.l3.bind("<Leave>", partial(self.color_config, self.l3, self.foreground))
@@ -162,16 +156,15 @@ class Menu():
         self.f4=tk.Frame(self.credit_win,bg=bg_color)
         self.f4.pack(fill='both',expand=1)
         self.l4=tk.Label(self.f4,text='Pixabay',font='Arial 16',bg=bg_color,fg=self.foreground)
+        self.l4.pack(fill='both',expand=1)
+        self.l4.bind('<Enter>',partial(self.color_config, self.l4, "red"))
+        self.l4.bind("<Leave>", partial(self.color_config, self.l4, self.foreground))
 
         #exit_button
         self.exit =tk.Button(self.credit_win, bg = '#1d7b72', text = "Return to main menu", command = self.credit_win.destroy)
         self.exit.bind('<Enter>',partial(self.color_config, self.exit, "red"))
         self.exit.bind("<Leave>", partial(self.color_config, self.exit, self.foreground))
         self.exit.pack()
-        #if config["bg_color"]=='#000000':self.l4.configure(foreground='white')
-        self.l4.pack(fill='both',expand=1)
-        self.l4.bind('<Enter>',partial(self.color_config, self.l4, "red"))
-        self.l4.bind("<Leave>", partial(self.color_config, self.l4, self.foreground))    
 
 
 

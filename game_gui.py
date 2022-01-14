@@ -1,6 +1,6 @@
 #necessary modules
 import tkinter as tk
-import time, pyglet, itertools, enchant, random, string, final_menu
+import time, pyglet, itertools, enchant, random, string, final_menu, yaml
 from functools import partial
 
 # φορτωση ήχων ως static sources
@@ -8,27 +8,33 @@ from functools import partial
 oops=pyglet.media.load('mixkit-system-beep-buzzer-fail-2964.wav',streaming=False)
 wins=pyglet.media.load('win.wav',streaming=False)
 newlettersound=pyglet.media.load('mixkit-retro-game-notification-212.wav',streaming=False)
+click = pyglet.media.load('sound-16.wav',streaming=False)
+
 vowels = ['a','e','i','o','u']  # Μια λίστα με τα φωνίεντα του αγγλικού αλφάβητου με σκοπό κάθε φορά το πρόγραμμα να διαλέγει οτυλάχιστον ένα από αυτά
 Dictionary = enchant.Dict("en_US") # Το αγγλικό λεξιλόγιο που χρησιμοποιείται για τον έλεγχο των λέξεων
 
-global score, multiplier
-score = 0
-multiplier = 1
+def game(bg, sfx, player):
 
-
-def game(bg, sfx):
-    global bg_color, sfx_multiplier
+    global bg_color, sfx_multiplier, player_2, score, multiplier, click
+    
+    score = 0
+    multiplier = 1
     bg_color = bg
-    music_multiplier = music
-    #with open('leaderboard.txt','w') as f:
+    sfx_multiplier = sfx
+    player_2 = player
+
+    #initialize graphics
     root = tk.Tk()
-    app = MyApp(root)
+    MyApp(root)
     root.mainloop()
+
+    #go to main menu once mainloop is over, only happens when user chooses to return to main menu
+    final_menu.main(player_2)
 
 
 class Restart():            ###parathiro epibebaiosis restart
 
-    global bg_color, music_multiplier
+    global bg_color, sfx_multiplier, player_2
 
     def __init__(self, win3, app):
         
@@ -45,25 +51,37 @@ class Restart():            ###parathiro epibebaiosis restart
         self.rf2.pack(side = "bottom", fill ="x", expand = 1)
         self.rb1 = tk.Button(self.rf2 , text = "cancel", font = "Arial 14",
                                 command = self.nobtn, width = 10)
+        self.rb1.bind('<Enter>',partial(self.color_config, self.rb1, "red")) 
+        self.rb1.bind("<Leave>", partial(self.color_config, self.rb1, "black"))  
         self.rb1.pack(side = "right", padx = 10, pady = 10,expand = 1)
         self.rb2 = tk.Button(self.rf2, text ="Yes", font = "Arial 14",
                                 command = self.yesbtn, width = 10)
+        self.rb2.bind('<Enter>',partial(self.color_config, self.rb2, "red")) 
+        self.rb2.bind("<Leave>", partial(self.color_config, self.rb2, "black"))  
         self.rb2.pack(side = "right", pady = 10, expand = 1)
 
     def yesbtn(self):
+        click.play().volume = 1.5 * sfx_multiplier
         self.win3.destroy()
         self.root.destroy()
-        game(bg_color, music_multiplier)
+        game(bg_color, sfx_multiplier, player_2)
+
 ##------------------------------------------------------------    
-    def nobtn(self):
+
+    def nobtn(self): 
+        click.play().volume = 1.5 * sfx_multiplier
         self.win3.destroy()
+
+    #changes color of button when hovered
+    def color_config(self,widget, color, event): widget.config(foreground=color)
         
         
 class MyMenu():         ####parathuro epibebaiosis epistrofi sto menou
 
     global bg_color, music_multiplier
 
-    def __init__(self, win, app):   #win=window
+    def __init__(self, win, app):   
+
         self.root = app.root
         self.win = win
         self.win.title("")
@@ -76,42 +94,48 @@ class MyMenu():         ####parathuro epibebaiosis epistrofi sto menou
         self.q2 = tk.Frame(self.win)
         self.q2.pack(side = "bottom", fill ="x", expand = 1)
         self.b1 = tk.Button(self.q2 , text = "cancel", font = "Arial 14", command = self.clw, width = 10)
+        self.b1.bind('<Enter>',partial(self.color_config, self.b1, "red"))
+        self.b1.bind("<Leave>", partial(self.color_config, self.b1, "black"))
         self.b1.pack(side = "right", padx = 10, pady = 10,expand = 1)
         self.b2 = tk.Button(self.q2, text ="Yes", font = "Arial 14", command = self.mainmenu, width = 10)
+        self.b2.bind('<Enter>',partial(self.color_config, self.b2, "red"))
+        self.b2.bind("<Leave>", partial(self.color_config, self.b2, "black"))
         self.b2.pack(side = "right", pady = 10, expand = 1)
 
-    def clw(self):
+    #clears the window, nothing happens
+    def clw(self): 
+        click.play().volume = 1.5 * sfx_multiplier
         self.win.destroy()             
-
+    #returns to main menu
     def mainmenu(self):
+        click.play().volume = 1.5 * sfx_multiplier
         self.win.destroy()
         self.root.destroy()
-        #self.win.destroy() #to win καταστρεφεται αυτοματα ως tk.Toplevel
-        final_menu.main()
-        #self.mainMenu()
-        #self.root.destroy()
+        player_2.play()
 
+    #changes color of button when hovered
+    def color_config(self,widget, color, event): widget.config(foreground=color)
 
-    
 class MyApp():
 
-    global bg_color, music_multiplier
+    global bg_color, sfx_multiplier
     
     def __init__(self, root):
+
         self.root = root
-        self.root.title("efarmogi6")
+        self.root.title("Python Word Game")
         self.root.geometry("600x500+400+100")
         self.create_canvas()
         start = time.time()
 
-    def take_word(self):      ###apothikeuei ti leksi sti metabliti word otan o xristis pataei to koumpi me to belaki
+    def take_word(self, event):      ###apothikeuei ti leksi sti metabliti word otan o xristis pataei to koumpi me to belaki
         word = self.entrytext
         words = word.get()
 ##       elegxos leksis kai score 
         self.entrytext.set("")
         self.entry["textvariable"] = self.entrytext
         if words in old_words:
-            oops.play()
+            oops.play().volume = 1.5 * sfx_multiplier
             self.entrytext.set("Την έχεις πει ήδη")
             self.entry.configure(fg = "red")
             self.entry["textvariable"] = self.entrytext
@@ -132,10 +156,10 @@ class MyApp():
             try:
                 self.is_word(words)
                 old_words.append(words)
-            except:
+            except Exception:
                 pass
         else:
-            oops.play()
+            oops.play().volume = 1.5 * sfx_multiplier
             self.entrytext.set("Λάθος γράμματα")
             self.entry.configure(fg = "red")
             self.entry["textvariable"] = self.entrytext
@@ -151,7 +175,7 @@ class MyApp():
     def is_word(self, words):
 
         if Dictionary.check(words) == True:
-             wins.play()
+             wins.play().volume = 1.5 * sfx_multiplier
              global score, multiplier
              score = score + multiplier
              self.scorevar.set(score)
@@ -161,33 +185,32 @@ class MyApp():
 ##                 f.write('Score = {}\n'.format(score))
                  
         else:
-            oops.play()                                           #για να μην υπαρχει καθυστερηση ο ήχος παιζει πρώτος
+            oops.play().volume = 1.5 * sfx_multiplier       #για να μην υπαρχει καθυστερηση ο ήχος παιζει πρώτος
             self.entrytext.set("Δεν υπάρχει αυτή η λέξη")
             self.entry.configure(fg = "red")
             self.entry["textvariable"] = self.entrytext
             self.root.update_idletasks()
             self.root.after(600, self.wordreset())
-            #oops.play()
-            print('Δεν υπάρχει αυτή η λέξη')
+            #print('Δεν υπάρχει αυτή η λέξη')
             
              
-    def end():
-        endsound.play()
+    def end(self):
+        #endsound.play().volume = 1.5 * sfx_multiplier
         print('Τέλος παιχνιδιού')
     
         
-    def showText(self):
+    def show_text(self):
         text = self.entry.get()
         print(text)
 
     def menu(self):
         win = tk.Toplevel(self.root)
-        mymenu = MyMenu(win, self)
+        MyMenu(win, self)
         win.mainloop()
 
-    def restartButton(self):
+    def restart_button(self):
         win3 = tk.Tk()
-        restart = Restart(win3, self)
+        Restart(win3, self)
         win3.mainloop()
         
     def new_letters(self):
@@ -208,10 +231,7 @@ class MyApp():
                old_letters.append(new_letter)
                letters.append(new_letter)
         letters.append(random.choice(vowels))
-        newlettersound.play()
-##-------------------------------------------------------------------------------------
-       # k = ["g","j","d","i"]       #list  grammata
-##------------------------------------------------------------------------------------
+        newlettersound.play().volume = 1.5 * sfx_multiplier
         self.f2.pack_forget()
         self.f2.destroy()
         self.f2 = tk.Frame(self.f1, bg = bg_color)
@@ -228,9 +248,7 @@ class MyApp():
     def activebutton(self, event):
         event.widget["activeforeground"]="white"
         event.widget["activebackground"]=bg_color
-    def color_config(self,widget, color, event):
-        '''αλλαγή χρώματος κουμπιού όταν το ποντίκι είναι απο πάνω του'''
-        widget.config(foreground=color)
+    def color_config(self,widget, color, event): widget.config(foreground=color)
 
     def countdown(self,count):
         # change text in label        
@@ -267,6 +285,7 @@ class MyApp():
             self.tmlbl3 = tk.Label(self.mainf2, text = "TIME UP",
                                       font = "Arial 18", fg = "red", bg = "grey",relief = "raised", width = 15, height = 5 )
             self.tmlbl3.pack(pady = 30)
+            self.get_name()
             self.root.update_idletasks
 
     def create_canvas(self):
@@ -283,7 +302,7 @@ class MyApp():
         #self.mn.bind("<Enter>",self.activebutton)
         #RESTART BUTTON
         self.rst = tk.Button(self.f, text = "RESTART",font = "Arial 14",
-                                command = self.restartButton, fg = "black", bg = "grey")
+                                command = self.restart_button, fg = "black", bg = "grey")
         self.rst.pack(side = "left", padx = 1, fill = "both")
         self.rst.bind('<Enter>',partial(self.color_config, self.rst, "red")) #"#f53b57" complementary color
         self.rst.bind("<Leave>", partial(self.color_config, self.rst, "black"))
@@ -359,9 +378,35 @@ class MyApp():
         
         self.nxt = tk.Button(self.f3 , text = "-->",command = self.take_word, font = "Arial 12", fg = "black", bg = "grey")
         self.nxt.pack(side = "right", expand = 1)
-        self.nxt.bind("<Enter>",self.activebutton)
+        self.nxt.bind("<Enter>", partial(self.color_config, self.nxt, "red"))
+        self.nxt.bind("<Leave>", partial(self.color_config, self.nxt, "black"))
+        self.root.bind("<Return>", self.take_word)
         self.countdown(60)
-        
 
+    #Functions for adding user to leaderboard    
+    def get_name(self):
+
+        self.win = tk.Toplevel(self.root, bg = "grey")
+        self.win.geometry("600x100+500+200")
+        self.f = tk.Frame(self.win, bg = "grey")
+        self.f.pack(side = "top", fill = "x", expand = 1)
+        self.l = tk.Label(self.f, text="Type your name: ", font ="Arial 14", justify = "left", fg = "black", bg = "grey")
+        self.l.pack(fill = "x", expand = 1)
+        self.nameentry = tk.StringVar()
+        self.n_entry = tk.Entry(self.f, font = "Arial 17", textvariable = self.nameentry)
+        self.n_entry.pack(side = "left", expand = 1)
+        self.ok = tk.Button(self.f , text = "Add to leaderboard",command = self.add_leaderboard, font = "Arial 12", fg = "black", bg = "grey")
+        self.ok.pack(side = "right", expand = 1)
+        self.ok.bind("<Enter>", partial(self.color_config, self.ok, "red"))
+        self.ok.bind("<Leave>", partial(self.color_config, self.ok, "black"))
+        self.win.bind("<Return>", self.add_leaderboard)
+
+    def add_leaderboard(self, e=None):
+        name = self.n_entry.get()
+        with open("leaderboard.yaml", "r") as f: lboard = yaml.load(f, Loader = yaml.FullLoader)
+        if name not in lboard or (name in lboard and score > lboard[name]):
+            lboard[name] = score
+            with open("leaderboard.yaml", "w") as f: yaml.dump(lboard, f)
+        self.win.destroy()
 
 
