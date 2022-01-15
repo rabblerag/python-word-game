@@ -15,9 +15,8 @@ except FileNotFoundError:
     newlettersound=pyglet.media.load('assets\\mixkit-retro-game-notification-212.wav',streaming=False)
     click = pyglet.media.load('assets\\sound-16.wav',streaming=False)
 
-vowels = ['a','e','i','o','u']  # Μια λίστα με τα φωνίεντα του αγγλικού αλφάβητου με σκοπό κάθε φορά το πρόγραμμα να διαλέγει οτυλάχιστον ένα από αυτά
-Dictionary = enchant.Dict("en_US") # Το αγγλικό λεξιλόγιο που χρησιμοποιείται για τον έλεγχο των λέξεων
-
+vowels = ['a','e','i','o','u']  # A list of the vowels of the english alphabet 
+Dictionary = enchant.Dict("en_US") # The english dictionary that is used to check the player's input
 def game(bg, sfx, player):
 
     global bg_color, sfx_multiplier, player_2, score, multiplier, click
@@ -134,10 +133,10 @@ class MyApp():
         self.create_canvas()
         start = time.time()
 
-    def take_word(self, event = None):      ###apothikeuei ti leksi sti metabliti word otan o xristis pataei to koumpi me to belaki
+    def take_word(self, event = None):      #This function saves the given word when the player presses the arrow
         word = self.entrytext
         words = word.get()
-##       elegxos leksis kai score 
+        #word and score check
         self.entrytext.set("")
         self.entry["textvariable"] = self.entrytext
         if words in old_words:
@@ -173,6 +172,8 @@ class MyApp():
         self.entrytext.set("")
         self.entry["textvariable"] = self.entrytext
         self.entry.configure(fg = "black")
+
+    # This function is called to check if the given word exists in the english dictionary and scores the player accordingly
     def is_word(self, words):
 
         if Dictionary.check(words) == True:
@@ -183,7 +184,7 @@ class MyApp():
              multiplier += 1
                  
         else:
-            oops.play().volume = 1.5 * sfx_multiplier       #για να μην υπαρχει καθυστερηση ο ήχος παιζει πρώτος
+            oops.play().volume = 1.5 * sfx_multiplier       
             self.entrytext.set("Δεν υπάρχει αυτή η λέξη")
             self.entry.configure(fg = "red")
             self.entry["textvariable"] = self.entrytext
@@ -199,25 +200,37 @@ class MyApp():
         win3 = tk.Tk()
         Restart(win3, self)
         win3.mainloop()
-        
+
+    # This function returns a new list of letters
     def new_letters(self):
         global letters
         letters = []
-        count = 0
+        global old_letters
         old_letters = []
         global multiplier
         multiplier = 1
         n = random.randint(4,9)
         for _ in itertools.repeat(None, n):
           new_letter = random.choice(string.ascii_lowercase)
-          if new_letter in old_letters:
-               count = count =+ 1
-               if count >= 1:
-                    continue
-          else:
+          if new_letter not in old_letters:
                old_letters.append(new_letter)
                letters.append(new_letter)
-        letters.append(random.choice(vowels))
+               
+          else:
+               continue   
+        self.last_letter()
+    #This function makes sure that there is always a vowel present in the list 
+    def last_letter(self):
+        last_letter = random.choice(vowels)
+        if last_letter in old_letters:
+            self.last_letter()
+        else:
+            letters.append(last_letter)
+            random.shuffle(letters)
+            self.give_letters()
+            
+    #This function shows the list of letters to the playerr
+    def give_letters(self):
         newlettersound.play().volume = 1.5 * sfx_multiplier
         self.f2.pack_forget()
         self.f2.destroy()
