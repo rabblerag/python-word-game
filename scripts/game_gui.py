@@ -3,10 +3,10 @@ import time, pyglet, itertools, enchant, random, string, final_menu, yaml, tkint
 from functools import partial
 
 # φορτωση ήχων ως static sources
-oops=pyglet.media.load("assets\\mixkit-system-beep-buzzer-fail-2964.wav",streaming=False)
-wins=pyglet.media.load("assets\\win.wav",streaming=False)
-newlettersound=pyglet.media.load("assets\\mixkit-retro-game-notification-212.wav",streaming=False)
-click = pyglet.media.load("assets\\sound-16.wav",streaming=False)
+oops=pyglet.media.load("mixkit-system-beep-buzzer-fail-2964.wav",streaming=False)
+wins=pyglet.media.load("win.wav",streaming=False)
+newlettersound=pyglet.media.load("mixkit-retro-game-notification-212.wav",streaming=False)
+click = pyglet.media.load("sound-16.wav",streaming=False)
 
 vowels = ["a","e","i","o","u"]  # Μια λίστα με τα φωνίεντα του αγγλικού αλφάβητου με σκοπό κάθε φορά το πρόγραμμα να διαλέγει οτυλάχιστον ένα από αυτά
 Dictionary = enchant.Dict("en_US") # Το αγγλικό λεξιλόγιο που χρησιμοποιείται για τον έλεγχο των λέξεων
@@ -403,11 +403,11 @@ class MyApp():
 
         name = self.n_entry.get().strip()
         try:
-            with open("assets\\" +  "leaderboard.yaml", "r") as f: lboard = yaml.load(f, Loader = yaml.FullLoader)
+            with open("" +  "leaderboard.yaml", "r") as f: lboard = yaml.load(f, Loader = yaml.FullLoader)
         except Exception: lboard = {}
         if name not in lboard or (name in lboard and score > lboard[name]):
             lboard[name] = score
-            with open("assets\\" +  "leaderboard.yaml", "w") as f: yaml.dump(lboard, f)
+            with open("" +  "leaderboard.yaml", "w") as f: yaml.dump(lboard, f)
         self.win.destroy()
 
 
