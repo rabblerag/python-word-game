@@ -88,6 +88,12 @@ class Menu():
         self.settings_button.pack(side='top', expand = 1)
         self.settings_button.bind('<Enter>',partial(self.color_config, self.settings_button, "red")) #"#942706" complementary color
         self.settings_button.bind("<Leave>", partial(self.color_config, self.settings_button, "black"))
+        
+        #HOW-TO-PLAY Button
+        self.settings_button=tk.Button(self.f2,text='HOW-TO-PLAY',font='Arial 16',relief='groove',bg='#1d7b72',command=self.howtoplay)
+        self.settings_button.pack(side='top', expand = 1)
+        self.settings_button.bind('<Enter>',partial(self.color_config, self.settings_button, "red")) #"#942706" complementary color
+        self.settings_button.bind("<Leave>", partial(self.color_config, self.settings_button, "black"))
 
         #CREDITS
         self.credits_button=tk.Button(self.f2,text='CREDITS',font='Arial 16',relief='groove',bg='#1d7b72',command=self.credits)
@@ -111,6 +117,36 @@ class Menu():
 
     #COLOR CHANGE WHEN MOUSE HOVERS OVER BUTTONS  
     def color_config(self,widget, color, event): widget.config(foreground=color)
+        
+    #HOW-TO-PLAY text menu
+    def howtoplay(self):
+        
+        click.play().volume = 1.5 * sfx_multiplier
+        self.howtoplay=tk.Toplevel(self.root,bg=bg_color)
+        self.howtoplay.title('HOW-TO-PLAY')
+        self.howtoplay.geometry('810x500+100+100')
+        self.foreground='black'
+        if config["bg_color"]=='#000000':self.foreground='white'
+        else:self.foreground='black'
+
+        
+        self.f5=tk.Frame(self.howtoplay,bg=bg_color)
+        self.f5.pack(fill='both',expand=1)
+        self.text=tk.Text(self.f5, height = 100, width = 100,bg=bg_color)
+        #self.text.pack(fill='both',expand=1)
+        self.text.tag_configure('big_text', font=("Verdana",20,"bold"))
+        self.text.insert('end','\nHOW-TO-PLAY\n','big_text')
+        
+        message="""
+#Welcome to our “INSERT NAME HERE”. In this game you have to find as many words as you can with the #given letters in 60 seconds.
+#
+#You can change the given letters as many times as you want but remember that when you find multiple#words with the same letters you get bonus points.
+#
+#Each letter can be used multiple times.
+        """
+        self.text.insert('end',message)
+        self.text.config(state='disable')
+        self.text.pack(side="left")
 
 
     #show local leaderboard
