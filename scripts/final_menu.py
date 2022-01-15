@@ -1,7 +1,10 @@
 #necessary modules
-import yaml, pyglet, game_gui, leaderboard, tkinter as tk
+import yaml, pyglet, game_gui, leaderboard, os, tkinter as tk
 from tkinter import colorchooser
 from functools import partial
+
+#get current path
+path = os.path.realpath(__file__) + "\\..\\..\\"
 
 #for reinitialization
 def main(player = None):
@@ -9,9 +12,9 @@ def main(player = None):
     
     #initialize settings by reading settings file, create one if it doesn't exist
     try:
-        with open("config.yaml", "r") as f: config = yaml.load(f, Loader=yaml.FullLoader)
+        with open(path + "config.yaml", "r") as f: config = yaml.load(f, Loader=yaml.FullLoader)
     except FileNotFoundError:
-        with open("config.yaml", "w") as f: 
+        with open(path + "config.yaml", "w") as f: 
             config = {"bg_color": "#1125ae", "music_multiplier": 0.50, "sfx_multiplier": 0.50, "muted": False}
             yaml.dump(config, f)
     bg_color = config["bg_color"]
@@ -20,12 +23,9 @@ def main(player = None):
     muted = config["muted"]
     
     #configure music players
-    try:
-        click = pyglet.media.load('..\\assets\\sound-16.wav',streaming=False)
-        music= pyglet.media.load('..\\assets\\jazzy-abstract-beat-11254.mp3', streaming=False) #StaticSource object
-    except FileNotFoundError:
-        click = pyglet.media.load('assets\\sound-16.wav',streaming=False)
-        music= pyglet.media.load('assets\\jazzy-abstract-beat-11254.mp3', streaming=False)
+    click = pyglet.media.load(path + 'assets\\sound-16.wav',streaming=False)
+    music= pyglet.media.load(path + 'assets\\jazzy-abstract-beat-11254.mp3', streaming=False) #StaticSource object
+
         
     #initializes the background music player if it doesn't already exist
     if player: player_2 = player
@@ -123,7 +123,7 @@ class Menu():
         
         click.play().volume = 1.5 * sfx_multiplier
         self.howtoplay=tk.Toplevel(self.root,bg=bg_color)
-        self.howtoplay.title('HOW-TO-PLAY')
+        self.howtoplay.title('HOW TO PLAY')
         self.howtoplay.geometry('810x500+100+100')
         self.foreground='black'
         if config["bg_color"]=='#000000':self.foreground='white'
@@ -287,7 +287,7 @@ class Settings():
         music_multiplier = self.w.get()/100
         player_2.volume = 0.5 * music_multiplier
         config["music_multiplier"] = music_multiplier
-        with open("config.yaml", "w") as f: yaml.dump(config, f)
+        with open(path + "config.yaml", "w") as f: yaml.dump(config, f)
         self.window.destroy()
 
 
@@ -300,7 +300,7 @@ class Settings():
         muted = True
         config["muted"] = True
         player_2.pause()
-        with open("config.yaml", "w") as f: yaml.dump(config, f)
+        with open(path + "config.yaml", "w") as f: yaml.dump(config, f)
 
     def unmute_music(self):
 
@@ -311,7 +311,7 @@ class Settings():
         muted = False
         config["muted"] = False
         player_2.play()
-        with open("config.yaml", "w") as f: yaml.dump(config, f)
+        with open(path + "config.yaml", "w") as f: yaml.dump(config, f)
         
     #MUSIC WINDOW    
     def adjust_music(self):
@@ -354,7 +354,7 @@ class Settings():
         sfx_multiplier = self.w.get()/100
         click.play().volume = 1.5 * sfx_multiplier
         config["sfx_multiplier"] = sfx_multiplier
-        with open("config.yaml", "w") as f: yaml.dump(config, f)
+        with open(path + "config.yaml", "w") as f: yaml.dump(config, f)
         self.window.destroy()
 
     def mute_sfx(self): self.w.set(0)
@@ -392,7 +392,7 @@ class Settings():
 
         #store user settings and reinitialize
         config["bg_color"] = colorchooser.askcolor(title = "Select a color", color = bg_color)[1]
-        with open("config.yaml", "w") as f: yaml.dump(config, f)
+        with open(path + "config.yaml", "w") as f: yaml.dump(config, f)
         self.root.destroy()
         main(player_2)
 

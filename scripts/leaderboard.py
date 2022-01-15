@@ -1,5 +1,8 @@
-import final_menu, yaml, pyglet, tkinter as tk
+import final_menu, yaml, pyglet, os, tkinter as tk
 from functools import partial
+
+#get path 
+path = os.path.realpath(__file__) + "\\..\\..\\"
 
 def lmain(bg, player, sfx):
 
@@ -8,7 +11,7 @@ def lmain(bg, player, sfx):
     bg_color = bg
     player_2 = player
     sfx_multiplier = sfx
-    try: click = pyglet.media.load('..\\assets\\sound-16.wav',streaming=False)
+    try: click = pyglet.media.load(path + 'assets\\sound-16.wav',streaming=False)
     except FileNotFoundError: pyglet.media.load('assets\\sound-16.wav',streaming=False)
 
     #initialize graphics
@@ -29,7 +32,7 @@ class Leaderboard:
         
         #Get the scores located on the leadeboard.txt
         try:
-            with open('leaderboard.yaml') as f: scoredict = yaml.load(f, Loader = yaml.FullLoader)
+            with open(path + 'leaderboard.yaml') as f: scoredict = yaml.load(f, Loader = yaml.FullLoader)
             scoredict = sorted(scoredict.items(), key=lambda x: x[1], reverse=True)
         except Exception: scoredict = {}
 
