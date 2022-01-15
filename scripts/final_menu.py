@@ -183,7 +183,8 @@ class Menu():
         click.play().volume = 1.5 * sfx_multiplier
         #SETTINGS WINDOW
         self.settings_window=tk.Toplevel(self.root,bg=bg_color)  #παράθυρο ρυθμίσεων ήχου και μουσικής
-        self.settings_window.geometry('200x166+440+217')
+        self.settings_window.geometry('300x166+440+217')
+        self.settings_window.title('Settings Window')
         self.settings = Settings(self.settings_window,self) #οπως 5ο εργαστηριο #class SETTINGS
         #self.settings_window.geometry('100x100')
         #Settings.adjust_sfx(self.a)
@@ -283,6 +284,7 @@ class Settings():
         click.play().volume = 1.5 * sfx_multiplier
         self.window=tk.Toplevel(self.root,bg=bg_color,height=400,width=400)
         self.window.geometry('400x200')
+        self.window.title('Music Window')
 
         #mute button
         self.mute_button=tk.Button(self.window,text='Mute',relief='groove',command=self.mute_music ,bg='#1d7b72')
@@ -328,6 +330,7 @@ class Settings():
         click.play().volume = 1.5 * sfx_multiplier
         self.window=tk.Toplevel(self.root,bg=bg_color,height=400,width=400)
         self.window.geometry('400x200')
+        self.window.title('SFX Window')
 
         #mute button
         self.mute_button=tk.Button(self.window,text='Mute',relief='groove',command=self.mute_sfx ,bg='#1d7b72')
