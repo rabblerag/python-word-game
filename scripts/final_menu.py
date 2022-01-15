@@ -12,9 +12,9 @@ def main(player = None):
     
     #initialize settings by reading settings file, create one if it doesn't exist
     try:
-        with open("config.yaml", "r") as f: config = yaml.load(f, Loader=yaml.FullLoader)
+        with open(path + "config.yaml", "r") as f: config = yaml.load(f, Loader=yaml.FullLoader)
     except FileNotFoundError:
-        with open("config.yaml", "w") as f: 
+        with open(path + "config.yaml", "w") as f: 
             config = {"bg_color": "#1125ae", "music_multiplier": 0.50, "sfx_multiplier": 0.50, "muted": False}
             yaml.dump(config, f)
     bg_color = config["bg_color"]
@@ -23,8 +23,8 @@ def main(player = None):
     muted = config["muted"]
     
     #configure music players
-    click = pyglet.media.load('assets\sound-16.wav',streaming=False)
-    music= pyglet.media.load('assets\jazzy-abstract-beat-11254.mp3', streaming=False) #StaticSource object
+    click = pyglet.media.load(path + 'sound-16.wav',streaming=False)
+    music= pyglet.media.load(path + 'jazzy-abstract-beat-11254.mp3', streaming=False) #StaticSource object
 
         
     #initializes the background music player if it doesn't already exist
@@ -139,6 +139,7 @@ class Menu():
         
         message="""
 #Welcome to our “INSERT NAME HERE”. In this game you have to find as many words as you can with the #given letters in 60 seconds.
+#Welcome to our Python Word Game. In this game you have to find as many words as you can with the #given letters in 60 seconds.
 #
 #You can change the given letters as many times as you want but remember that when you find multiple#words with the same letters you get bonus points.
 #
