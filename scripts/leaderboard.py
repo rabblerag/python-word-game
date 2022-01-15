@@ -2,7 +2,7 @@ import final_menu, yaml, pyglet, os, tkinter as tk
 from functools import partial
 
 #get path 
-path = os.path.realpath(__file__) + "\\..\\..\\"
+path = os.path.realpath(__file__) + "\\..\\..\\assets\\"
 
 def lmain(bg, player, sfx):
 
@@ -11,8 +11,8 @@ def lmain(bg, player, sfx):
     bg_color = bg
     player_2 = player
     sfx_multiplier = sfx
-    try: click = pyglet.media.load(path + 'assets\\sound-16.wav',streaming=False)
-    except FileNotFoundError: pyglet.media.load('assets\\sound-16.wav',streaming=False)
+    try: click = pyglet.media.load(path + 'sound-16.wav',streaming=False)
+    except FileNotFoundError: pyglet.media.load('sound-16.wav',streaming=False)
 
     #initialize graphics
     root=tk.Tk()
