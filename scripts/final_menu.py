@@ -155,7 +155,8 @@ class Menu():
         click.play().volume = 1.5 * sfx_multiplier
         self.root.destroy()
         leaderboard.lmain(bg_color, player_2, sfx_multiplier)
-
+        
+    #defining the color of the letters in the credit window depending on the background
     def credits(self):
 
         click.play().volume = 1.5 * sfx_multiplier
@@ -172,7 +173,7 @@ class Menu():
         self.l1=tk.Label(self.f1,text='Sound effects taken from: ',font='Arial 16',bg=bg_color,fg=self.foreground)
         self.l1.pack(fill='both',expand=1)
         self.l1.bind('<Enter>',partial(self.color_config, self.l1, "red"))
-        self.l1.bind("<Leave>", partial(self.color_config, self.l1, self.foreground))
+        self.l1.bind("<Leave>", partial(self.color_config, self.l1, self.foreground))   #defaultcolor=self.foreground
 
         #frame 2
         self.f2=tk.Frame(self.credit_win,bg=bg_color)
@@ -226,6 +227,7 @@ class Menu():
         #Settings.adjust_sfx(self.a)
         #find a way to simply change the layout instead of creating a new window
         
+    #change the credits letter color  
     def letter_color(self):
         self.label1.configure(foreground='white')
         self.label2.configure(foreground='white')
