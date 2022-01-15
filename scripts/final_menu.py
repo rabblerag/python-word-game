@@ -1,5 +1,5 @@
 #necessary modules
-import yaml, pyglet, game_gui, leaderboard, tkinter as tk
+import yaml, pyglet, game_gui, leaderboard, tkinter as tk, sys
 from tkinter import colorchooser
 from functools import partial
 
@@ -204,12 +204,12 @@ class Menu():
 
 
 
-    #exit the game, replace quit() with tkinter kill()
+    #exit the game
     def game_exit(self):
         click.play().volume = 1.5 * sfx_multiplier
         self.root.destroy()
         player_2.delete()
-        quit()
+        sys.exit()
         
         
     #go to settings GUI
