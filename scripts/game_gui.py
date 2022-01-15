@@ -212,13 +212,11 @@ class MyApp():
                if count >= 1:
                     continue
           else:
-          if new_letter not in old_letters:
-               old_letters.append(new_letter)
-               letters.append(new_letter)
-        letters.append(random.choice(vowels))
-
-          else:
-               continue   
+            if new_letter not in old_letters:
+                old_letters.append(new_letter)
+                letters.append(new_letter)
+                letters.append(random.choice(vowels))
+            else: continue   
         self.last_letter()
     #This function makes sure that there is always a vowel present in the list 
     def last_letter(self):
