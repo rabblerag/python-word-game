@@ -3,10 +3,10 @@ import time, pyglet, itertools, enchant, random, string, final_menu, yaml, tkint
 from functools import partial
 
 # φορτωση ήχων ως static sources
-oops=pyglet.media.load("assets\\" + "mixkit-system-beep-buzzer-fail-2964.wav",streaming=False)
-wins=pyglet.media.load("assets\\" + "win.wav",streaming=False)
-newlettersound=pyglet.media.load("assets\\" + "mixkit-retro-game-notification-212.wav",streaming=False)
-click = pyglet.media.load("assets\\" + "sound-16.wav",streaming=False)
+oops=pyglet.media.load("assets\\mixkit-system-beep-buzzer-fail-2964.wav",streaming=False)
+wins=pyglet.media.load("assets\\win.wav",streaming=False)
+newlettersound=pyglet.media.load("assets\\mixkit-retro-game-notification-212.wav",streaming=False)
+click = pyglet.media.load("assets\\sound-16.wav",streaming=False)
 
 vowels = ["a","e","i","o","u"]  # Μια λίστα με τα φωνίεντα του αγγλικού αλφάβητου με σκοπό κάθε φορά το πρόγραμμα να διαλέγει οτυλάχιστον ένα από αυτά
 Dictionary = enchant.Dict("en_US") # Το αγγλικό λεξιλόγιο που χρησιμοποιείται για τον έλεγχο των λέξεων

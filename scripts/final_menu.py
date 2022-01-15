@@ -9,9 +9,9 @@ def main(player = None):
     
     #initialize settings by reading settings file, create one if it doesn"t exist
     try:
-        with open("assets\\" + "config.yaml", "r") as f: config = yaml.load(f, Loader=yaml.FullLoader)
+        with open("assets\\config.yaml", "r") as f: config = yaml.load(f, Loader=yaml.FullLoader)
     except FileNotFoundError:
-        with open("assets\\" + "config.yaml", "w") as f: 
+        with open("assets\\config.yaml", "w") as f: 
             config = {"bg_color": "#1125ae", "music_multiplier": 0.50, "sfx_multiplier": 0.50, "muted": False}
             yaml.dump(config, f)
     bg_color = config["bg_color"]
@@ -286,7 +286,7 @@ class Settings():
         music_multiplier = self.w.get()/100
         player_2.volume = 0.5 * music_multiplier
         config["music_multiplier"] = music_multiplier
-        with open("assets\\" + "config.yaml", "w") as f: yaml.dump(config, f)
+        with open("assets\\config.yaml", "w") as f: yaml.dump(config, f)
         self.window.destroy()
 
 
@@ -299,7 +299,7 @@ class Settings():
         muted = True
         config["muted"] = True
         player_2.pause()
-        with open("assets\\" + "config.yaml", "w") as f: yaml.dump(config, f)
+        with open("assets\\config.yaml", "w") as f: yaml.dump(config, f)
 
     def unmute_music(self):
 
@@ -310,7 +310,7 @@ class Settings():
         muted = False
         config["muted"] = False
         player_2.play()
-        with open("assets\\" + "config.yaml", "w") as f: yaml.dump(config, f)
+        with open("assets\\config.yaml", "w") as f: yaml.dump(config, f)
         
     #MUSIC WINDOW    
     def adjust_music(self):
@@ -353,7 +353,7 @@ class Settings():
         sfx_multiplier = self.w.get()/100
         click.play().volume = 1.5 * sfx_multiplier
         config["sfx_multiplier"] = sfx_multiplier
-        with open("assets\\" + "config.yaml", "w") as f: yaml.dump(config, f)
+        with open("assets\\config.yaml", "w") as f: yaml.dump(config, f)
         self.window.destroy()
 
     def mute_sfx(self): self.w.set(0)
@@ -391,7 +391,7 @@ class Settings():
 
         #store user settings and reinitialize
         config["bg_color"] = colorchooser.askcolor(title = "Select a color", color = bg_color)[1]
-        with open("assets\\" + "config.yaml", "w") as f: yaml.dump(config, f)
+        with open("assets\\config.yaml", "w") as f: yaml.dump(config, f)
         self.root.destroy()
         main(player_2)
 
