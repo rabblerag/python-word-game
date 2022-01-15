@@ -200,6 +200,7 @@ class MyApp():
         global letters
         letters = []
         count = 0
+        global old_letters
         old_letters = []
         global multiplier
         multiplier = 1
@@ -211,9 +212,26 @@ class MyApp():
                if count >= 1:
                     continue
           else:
+          if new_letter not in old_letters:
                old_letters.append(new_letter)
                letters.append(new_letter)
         letters.append(random.choice(vowels))
+
+          else:
+               continue   
+        self.last_letter()
+    #This function makes sure that there is always a vowel present in the list 
+    def last_letter(self):
+        last_letter = random.choice(vowels)
+        if last_letter in old_letters:
+            self.last_letter()
+        else:
+            letters.append(last_letter)
+            random.shuffle(letters)
+            self.give_letters()
+
+    #This function shows the list of letters to the playerr
+    def give_letters(self):
         newlettersound.play().volume = 1.5 * sfx_multiplier
         self.f2.pack_forget()
         self.f2.destroy()
