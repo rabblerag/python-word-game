@@ -20,8 +20,8 @@ def main(player = None):
     muted = config["muted"]
     
     #configure music players
-    click = pyglet.media.load("assets\\" +"sound-16.wav",streaming=False)
-    music= pyglet.media.load("assets\\" +"jazzy-abstract-beat-11254.mp3", streaming=False) #StaticSource object
+    click = pyglet.media.load("assets\\sound-16.wav",streaming=False)
+    music= pyglet.media.load("assets\\jazzy-abstract-beat-11254.mp3", streaming=False) #StaticSource object
         
     #initializes the background music player if it doesn"t already exist
     if player: player_2 = player
@@ -134,7 +134,7 @@ class Menu():
         self.text.insert("end","\nHOW-TO-PLAY\n","big_text")
         
         message="""
-#Welcome to our “INSERT NAME HERE”. In this game you have to find as many words as you can with the #given letters in 60 seconds.
+#Welcome to our Python Word Game. In this game you have to find as many words as you can with the #given letters in 60 seconds.
 #Welcome to our Python Word Game. In this game you have to find as many words as you can with the #given letters in 60 seconds.
 #
 #You can change the given letters as many times as you want but remember that when you find multiple#words with the same letters you get bonus points.
