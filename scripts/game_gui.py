@@ -350,6 +350,8 @@ class MyApp():
                             fg = "black", bg = "grey", command = self.new_letters)
         self.nl.pack(side = "bottom", expand = 1)
         self.nl.bind("<Enter>",self.activebutton)
+        self.nl.bind('<Enter>',partial(self.color_config, self.nl, "red")) 
+        self.nl.bind("<Leave>", partial(self.color_config, self.nl, "black"))
         self.f3 = tk.Frame(self.f1)
         self.f3.pack(side = "bottom", pady = 20, expand = 1)
         
