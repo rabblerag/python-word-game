@@ -1,9 +1,5 @@
-import final_menu, yaml, pyglet, os, tkinter as tk
+import final_menu, yaml, pyglet, tkinter as tk
 from functools import partial
-
-#get programpath 
-programpath = os.path.realpath(__file__) + "\\..\\..\\"
-os.chdir(programpath)
 
 def lmain(bg, player, sfx):
 
@@ -12,7 +8,7 @@ def lmain(bg, player, sfx):
     bg_color = bg
     player_2 = player
     sfx_multiplier = sfx
-    click = pyglet.media.load(programpath + "assets\\" + "sound-16.wav",streaming=False)
+    click = pyglet.media.load("assets\\" + "sound-16.wav",streaming=False)
 
     #initialize graphics
     root=tk.Tk()
@@ -32,7 +28,7 @@ class Leaderboard:
         
         #Get the scores located on the leadeboard.txt
         try:
-            with open(programpath + "assets\\" + "leaderboard.yaml") as f: scoredict = yaml.load(f, Loader = yaml.FullLoader)
+            with open("assets\\" + "leaderboard.yaml") as f: scoredict = yaml.load(f, Loader = yaml.FullLoader)
             scoredict = sorted(scoredict.items(), key=lambda x: x[1], reverse=True)
         except Exception: scoredict = {}
 
