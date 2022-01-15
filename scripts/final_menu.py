@@ -138,7 +138,7 @@ class Menu():
         self.text.insert('end','\nHOW-TO-PLAY\n','big_text')
         
         message="""
-#Welcome to our “INSERT NAME HERE”. In this game you have to find as many words as you can with the #given letters in 60 seconds.
+#Welcome to our Python Word Game. In this game you have to find as many words as you can with the #given letters in 60 seconds.
 #
 #You can change the given letters as many times as you want but remember that when you find multiple#words with the same letters you get bonus points.
 #
