@@ -77,9 +77,9 @@ class Leaderboard:
             self.f.pack(expand=1, fill='both', side='top')
             self.lb=tk.Label(self.f,text=self.position,font='Arial40')
             self.lb.pack(side="left")
-            self.lb=tk.Label(self.f,text=[key],font='Arial40',padx=25)
+            self.lb=tk.Label(self.f,text=key,font='Arial40',padx=25)
             self.lb.pack(side="left")
-            self.lb=tk.Label(self.f,text=[value],font='Arial400',padx=25)
+            self.lb=tk.Label(self.f,text=value,font='Arial400',padx=25)
             self.lb.pack(side="right")
             self.count=self.count+1
 
