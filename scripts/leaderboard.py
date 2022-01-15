@@ -2,7 +2,8 @@ import final_menu, yaml, pyglet, os, tkinter as tk
 from functools import partial
 
 #get programpath 
-programpath = os.path.realpath(__file__) + "\\..\\..\\assets\\"
+programpath = os.path.realpath(__file__) + "\\..\\..\\"
+os.chdir(programpath)
 
 def lmain(bg, player, sfx):
 
@@ -11,7 +12,7 @@ def lmain(bg, player, sfx):
     bg_color = bg
     player_2 = player
     sfx_multiplier = sfx
-    click = pyglet.media.load(programpath + 'sound-16.wav',streaming=False)
+    click = pyglet.media.load(programpath + "assets\\" + "sound-16.wav",streaming=False)
 
     #initialize graphics
     root=tk.Tk()
@@ -31,7 +32,7 @@ class Leaderboard:
         
         #Get the scores located on the leadeboard.txt
         try:
-            with open(programpath + 'leaderboard.yaml') as f: scoredict = yaml.load(f, Loader = yaml.FullLoader)
+            with open(programpath + "assets\\" + "leaderboard.yaml") as f: scoredict = yaml.load(f, Loader = yaml.FullLoader)
             scoredict = sorted(scoredict.items(), key=lambda x: x[1], reverse=True)
         except Exception: scoredict = {}
 
@@ -51,18 +52,18 @@ class Leaderboard:
         self.frame.bind("<Configure>", self.on_frame_configure)
         
         #menu button
-        self.b=tk.Button(self.frame,text='Return to main menu',font='Arial40',bg='#1d7b72',activebackground="red",relief='groove',command=self.button_pushed)
-        self.b.bind('<Enter>',partial(self.color_config, self.b, "red")) 
+        self.b=tk.Button(self.frame,text="Return to main menu",font="Arial40",bg="#1d7b72",activebackground="red",relief="groove",command=self.button_pushed)
+        self.b.bind("<Enter>",partial(self.color_config, self.b, "red")) 
         self.b.bind("<Leave>", partial(self.color_config, self.b, "black"))
         self.b.pack(side="top",expand="True",fill="both")
 
 
         #Adding Labels for Player Names and their scores
-        self.f2=tk.Frame(self.frame,bg='grey')
-        self.f2.pack(expand=1, fill='both', side='top')
-        self.w=tk.Label(self.f2,text="PLAYER NAME",font=('Arial', 15),bg='grey')
+        self.f2=tk.Frame(self.frame,bg="grey")
+        self.f2.pack(expand=1, fill="both", side="top")
+        self.w=tk.Label(self.f2,text="PLAYER NAME",font=("Arial", 15),bg="grey")
         self.w.pack(side="left")
-        self.w=tk.Label(self.f2,text="SCORE",font=('Arial', 15),bg='grey')
+        self.w=tk.Label(self.f2,text="SCORE",font=("Arial", 15),bg="grey")
         self.w.pack(side="right")
 
         #Counters for ranking the players
@@ -73,12 +74,12 @@ class Leaderboard:
         for key,value in scoredict:
             self.position="#"+str(self.count)
             self.f=tk.Frame(self.frame,bg=bg_color, bd=10,padx=10,highlightbackground="grey",highlightthickness=2)
-            self.f.pack(expand=1, fill='both', side='top')
-            self.lb=tk.Label(self.f,text=self.position,font='Arial40')
+            self.f.pack(expand=1, fill="both", side="top")
+            self.lb=tk.Label(self.f,text=self.position,font="Arial40")
             self.lb.pack(side="left")
-            self.lb=tk.Label(self.f,text=key,font='Arial40',padx=25)
+            self.lb=tk.Label(self.f,text=key,font="Arial40",padx=25)
             self.lb.pack(side="left")
-            self.lb=tk.Label(self.f,text=value,font='Arial400',padx=25)
+            self.lb=tk.Label(self.f,text=value,font="Arial400",padx=25)
             self.lb.pack(side="right")
             self.count=self.count+1
 

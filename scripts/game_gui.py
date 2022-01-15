@@ -3,20 +3,22 @@ import time, pyglet, itertools, enchant, random, string, final_menu, yaml, os, t
 from functools import partial
 
 #get programpath
-programpath = os.path.realpath(__file__) + "\\..\\..\\assets\\"
+programpath = os.path.realpath(__file__) + "\\..\\..\\"
+os.chdir(programpath)
 
 # φορτωση ήχων ως static sources
-oops=pyglet.media.load(programpath +'mixkit-system-beep-buzzer-fail-2964.wav',streaming=False)
-wins=pyglet.media.load(programpath +'win.wav',streaming=False)
-newlettersound=pyglet.media.load(programpath +'mixkit-retro-game-notification-212.wav',streaming=False)
-click = pyglet.media.load(programpath +'sound-16.wav',streaming=False)
+oops=pyglet.media.load(programpath + "assets\\" + "mixkit-system-beep-buzzer-fail-2964.wav",streaming=False)
+wins=pyglet.media.load(programpath + "assets\\" + "win.wav",streaming=False)
+newlettersound=pyglet.media.load(programpath + "assets\\" + "mixkit-retro-game-notification-212.wav",streaming=False)
+click = pyglet.media.load(programpath + "assets\\" + "sound-16.wav",streaming=False)
 
-vowels = ['a','e','i','o','u']  # Μια λίστα με τα φωνίεντα του αγγλικού αλφάβητου με σκοπό κάθε φορά το πρόγραμμα να διαλέγει οτυλάχιστον ένα από αυτά
+vowels = ["a","e","i","o","u"]  # Μια λίστα με τα φωνίεντα του αγγλικού αλφάβητου με σκοπό κάθε φορά το πρόγραμμα να διαλέγει οτυλάχιστον ένα από αυτά
 Dictionary = enchant.Dict("en_US") # Το αγγλικό λεξιλόγιο που χρησιμοποιείται για τον έλεγχο των λέξεων
 
 def game(bg, sfx, player):
 
-    global bg_color, sfx_multiplier, player_2, score, multiplier, click
+    global bg_color, sfx_multiplier, player_2, score, multiplier, click, old_words
+    old_words = []
     
     score = 0
     multiplier = 1
@@ -53,12 +55,12 @@ class Restart():            ###parathiro epibebaiosis restart
         self.rf2.pack(side = "bottom", fill ="x", expand = 1)
         self.rb1 = tk.Button(self.rf2 , text = "cancel", font = "Arial 14",
                                 command = self.nobtn, width = 10)
-        self.rb1.bind('<Enter>',partial(self.color_config, self.rb1, "red")) 
+        self.rb1.bind("<Enter>",partial(self.color_config, self.rb1, "red")) 
         self.rb1.bind("<Leave>", partial(self.color_config, self.rb1, "black"))  
         self.rb1.pack(side = "right", padx = 10, pady = 10,expand = 1)
         self.rb2 = tk.Button(self.rf2, text ="Yes", font = "Arial 14",
                                 command = self.yesbtn, width = 10)
-        self.rb2.bind('<Enter>',partial(self.color_config, self.rb2, "red")) 
+        self.rb2.bind("<Enter>",partial(self.color_config, self.rb2, "red")) 
         self.rb2.bind("<Leave>", partial(self.color_config, self.rb2, "black"))  
         self.rb2.pack(side = "right", pady = 10, expand = 1)
 
@@ -96,11 +98,11 @@ class MyMenu():         ####parathuro epibebaiosis epistrofi sto menou
         self.q2 = tk.Frame(self.win)
         self.q2.pack(side = "bottom", fill ="x", expand = 1)
         self.b1 = tk.Button(self.q2 , text = "cancel", font = "Arial 14", command = self.clw, width = 10)
-        self.b1.bind('<Enter>',partial(self.color_config, self.b1, "red"))
+        self.b1.bind("<Enter>",partial(self.color_config, self.b1, "red"))
         self.b1.bind("<Leave>", partial(self.color_config, self.b1, "black"))
         self.b1.pack(side = "right", padx = 10, pady = 10,expand = 1)
         self.b2 = tk.Button(self.q2, text ="Yes", font = "Arial 14", command = self.mainmenu, width = 10)
-        self.b2.bind('<Enter>',partial(self.color_config, self.b2, "red"))
+        self.b2.bind("<Enter>",partial(self.color_config, self.b2, "red"))
         self.b2.bind("<Leave>", partial(self.color_config, self.b2, "black"))
         self.b2.pack(side = "right", pady = 10, expand = 1)
 
@@ -138,14 +140,14 @@ class MyApp():
         self.entry["textvariable"] = self.entrytext
         if words in old_words:
             oops.play().volume = 1.5 * sfx_multiplier
-            self.entrytext.set("Την έχεις πει ήδη")
+            self.entrytext.set("You've already said this word")
             self.entry.configure(fg = "red")
             self.entry["textvariable"] = self.entrytext
             self.root.update_idletasks()
             self.root.after(600, self.wordreset())
             
         elif len(words) == 1:
-            self.entrytext.set("You've already said this word")
+            self.entrytext.set("You've already said this word!")
             self.entry.configure(fg = "red")
             self.entry["textvariable"] = self.entrytext
             self.root.update_idletasks()
@@ -159,7 +161,7 @@ class MyApp():
                 pass
         else:
             oops.play().volume = 1.5 * sfx_multiplier
-            self.entrytext.set("Wrong letters")
+            self.entrytext.set("Wrong letters!")
             self.entry.configure(fg = "red")
             self.entry["textvariable"] = self.entrytext
             self.root.update_idletasks()
@@ -240,7 +242,7 @@ class MyApp():
         for x in range(0,a):
             y = str(letters[x])
             self.y = tk.Label(self.f2, text = y, font = "Arial 15",
-                                fg = "black", bg ='grey',relief = "raised", width = 2)
+                                fg = "black", bg ="grey",relief = "raised", width = 2)
             self.y.pack(side = "left", padx = 5, expand = 1)
         
 
@@ -295,7 +297,7 @@ class MyApp():
         self.mn = tk.Button(self.f, text = "MENU", font = "Arial 14",
                             fg ="black", bg = "grey", command = self.menu)
         self.mn.pack(side = "left", fill = "both")
-        self.mn.bind('<Enter>',partial(self.color_config, self.mn, "red")) #"#f53b57" complementary color
+        self.mn.bind("<Enter>",partial(self.color_config, self.mn, "red")) #"#f53b57" complementary color
         self.mn.bind("<Leave>", partial(self.color_config, self.mn, "black"))
 
         #self.mn.bind("<Enter>",self.activebutton)
@@ -303,14 +305,13 @@ class MyApp():
         self.rst = tk.Button(self.f, text = "RESTART",font = "Arial 14",
                                 command = self.restart_button, fg = "black", bg = "grey")
         self.rst.pack(side = "left", padx = 1, fill = "both")
-        self.rst.bind('<Enter>',partial(self.color_config, self.rst, "red")) #"#f53b57" complementary color
+        self.rst.bind("<Enter>",partial(self.color_config, self.rst, "red")) #"#f53b57" complementary color
         self.rst.bind("<Leave>", partial(self.color_config, self.rst, "black"))
 
         #add quit button
         
 
-        global old_words
-        old_words = []
+        
 
         #TIME?
         self.timevar = tk.StringVar()
@@ -320,7 +321,7 @@ class MyApp():
         self.time.pack(side="right",fill = "both")
     
         self.scorevar = tk.IntVar()
-        self.scorevar.set('0')
+        self.scorevar.set("0")
         self.skr = tk.Label(self.f, textvariable = self.scorevar, font = "Arial 14",
                             fg = "green", bg = "grey", width = 10)
         self.skr.pack(side = "right",fill = "both")
@@ -366,7 +367,7 @@ class MyApp():
                             fg = "black", bg = "grey", command = self.new_letters)
         self.nl.pack(side = "bottom", expand = 1)
         self.nl.bind("<Enter>",self.activebutton)
-        self.nl.bind('<Enter>',partial(self.color_config, self.nl, "red")) 
+        self.nl.bind("<Enter>",partial(self.color_config, self.nl, "red")) 
         self.nl.bind("<Leave>", partial(self.color_config, self.nl, "black"))
         self.f3 = tk.Frame(self.f1)
         self.f3.pack(side = "bottom", pady = 20, expand = 1)
@@ -406,11 +407,11 @@ class MyApp():
 
         name = self.n_entry.get().strip()
         try:
-            with open(programpath + "leaderboard.yaml", "r") as f: lboard = yaml.load(f, Loader = yaml.FullLoader)
+            with open(programpath + "assets\\" +  "leaderboard.yaml", "r") as f: lboard = yaml.load(f, Loader = yaml.FullLoader)
         except Exception: lboard = {}
         if name not in lboard or (name in lboard and score > lboard[name]):
             lboard[name] = score
-            with open(programpath + "leaderboard.yaml", "w") as f: yaml.dump(lboard, f)
+            with open(programpath + "assets\\" +  "leaderboard.yaml", "w") as f: yaml.dump(lboard, f)
         self.win.destroy()
 
 
