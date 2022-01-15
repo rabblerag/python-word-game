@@ -4,7 +4,7 @@ from tkinter import colorchooser
 from functools import partial
 
 #get current programpath
-programpath = os.path.path(__file__) + "\\..\\..\\assets\\"
+programpath = os.path.realpath(__file__) + "\\..\\..\\assets\\"
 
 #for reinitialization
 def main(player = None):
@@ -25,7 +25,6 @@ def main(player = None):
     #configure music players
     click = pyglet.media.load(programpath + 'sound-16.wav',streaming=False)
     music= pyglet.media.load(programpath + 'jazzy-abstract-beat-11254.mp3', streaming=False) #StaticSource object
-
         
     #initializes the background music player if it doesn't already exist
     if player: player_2 = player

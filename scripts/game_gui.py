@@ -3,7 +3,7 @@ import time, pyglet, itertools, enchant, random, string, final_menu, yaml, os, t
 from functools import partial
 
 #get programpath
-programpath = os.path.programpath(__file__) + "\\..\\..\\assets\\"
+programpath = os.path.realpath(__file__) + "\\..\\..\\assets\\"
 
 # φορτωση ήχων ως static sources
 oops=pyglet.media.load(programpath +'mixkit-system-beep-buzzer-fail-2964.wav',streaming=False)
