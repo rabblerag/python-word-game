@@ -26,13 +26,14 @@ def main(player = None):
     except FileNotFoundError:
         click = pyglet.media.load('assets\\sound-16.wav',streaming=False)
         music= pyglet.media.load('assets\\jazzy-abstract-beat-11254.mp3', streaming=False)
+        
     #initializes the background music player if it doesn't already exist
     if player: player_2 = player
     else:
 
         pyglet.options['audio'] = ('openal', 'pulse', 'directsound', 'silent')
         player_2 = pyglet.media.Player()
-        player_2.loop = True
+        music= pyglet.media.load('assets\\jazzy-abstract-beat-11254.mp3', streaming=False) #StaticSource object
         player_2.queue(music)
         player_2.volume = 0.5 * music_multiplier
 
