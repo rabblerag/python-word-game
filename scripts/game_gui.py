@@ -8,7 +8,7 @@ path = os.path.realpath(__file__) + "\\..\\..\\assets\\"
 # φορτωση ήχων ως static sources
 oops=pyglet.media.load('assets\mixkit-system-beep-buzzer-fail-2964.wav',streaming=False)
 wins=pyglet.media.load('assets\win.wav',streaming=False)
-newlettersound=pyglet.media.load('assets\retro-game-notification-212.wav',streaming=False)
+newlettersound=pyglet.media.load('assets\mixkit-retro-game-notification-212.wav',streaming=False)
 click = pyglet.media.load('assets\6.wav',streaming=False)
 
 vowels = ['a','e','i','o','u']  # Μια λίστα με τα φωνίεντα του αγγλικού αλφάβητου με σκοπό κάθε φορά το πρόγραμμα να διαλέγει οτυλάχιστον ένα από αυτά
