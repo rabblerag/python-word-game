@@ -387,7 +387,8 @@ class MyApp():
         self.win.bind("<Return>", self.add_leaderboard)
 
     def add_leaderboard(self, e=None):
-        name = self.n_entry.get()
+        
+        name = self.n_entry.get().strip()
         try:
             with open(path + "leaderboard.yaml", "r") as f: lboard = yaml.load(f, Loader = yaml.FullLoader)
         except Exception: lboard = {}
